@@ -1,0 +1,15 @@
+{
+  "webhooks": [
+    {
+      "url": "https://discord.com/api/webhooks/replace-me",
+      "nations": [
+        "Alchak_Federation"
+      ],
+      "nation_roles": {}
+    }
+  ],
+  "discord_bot_token": "",
+  "port": 3000,
+  "auto_scrape": true,
+  "max_manual_runs_per_hour": 5
+}

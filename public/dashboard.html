@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alchak Federation Scraper Dashboard</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 900px; margin: 0 auto; padding: 20px; background: #f0f2f5; color: #333; }
+        .card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); margin-bottom: 20px; }
+        h1 { color: #2c3e50; }
+        h2 { border-bottom: 2px solid #eee; padding-bottom: 10px; margin-top: 0; }
+        
+        .status-badge { padding: 5px 10px; border-radius: 15px; font-weight: bold; color: white; display: inline-block; }
+        .bg-running { background-color: #f39c12; }
+        .bg-idle { background-color: #27ae60; }
+        .bg-queued { background-color: #3498db; }
+        .bg-cancelling { background-color: #e74c3c; }
+
+        button { padding: 10px 15px; cursor: pointer; background: #007bff; color: white; border: none; border-radius: 4px; transition: background 0.2s; }
+        button:hover { background: #0056b3; }
+        button:disabled { background: #ccc; cursor: not-allowed; }
+        button.stop { background: #dc3545; }
+        button.stop:hover { background: #c82333; }
+
+        pre { background: #333; color: #eee; padding: 10px; overflow: auto; height: 300px; border-radius: 4px; font-size: 13px; }
+        
+        input[type="text"], input[type="password"], select { width: 100%; padding: 8px; margin: 5px 0; box-sizing: border-box; border: 1px solid #ddd; border-radius: 4px; }
+        label { font-weight: bold; display: block; margin-top: 10px; }
+        .row { display: flex; justify-content: space-between; align-items: start; }
+        .col { flex: 1; padding-right: 20px; }
+        .webhook-entry { border: 1px solid #e1e4e8; border-radius: 6px; padding: 12px; margin-top: 12px; background: #fafbfc; }
+        .nation-role-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
+        .webhook-actions { display: flex; justify-content: space-between; align-items: center; margin-top: 10px; }
+        .secondary-btn { background: #6c757d; }
+        .secondary-btn:hover { background: #5a6268; }
+        select[multiple] { min-height: 140px; }
+        
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        th, td { text-align: left; padding: 8px; border-bottom: 1px solid #ddd; }
+        th { background-color: #f8f9fa; }
+    </style>
+</head>
+<body>
+    <h1>Alchak Scraper Dashboard</h1>
+
+    <!-- STATUS CARD -->
+    <div class="card">
+        <h2>System Status</h2>
+        <div class="row">
+            <div class="col">
+                <p>State: <span id="stateBadge" class="status-badge bg-idle">IDLE</span></p>
+                <p>Queue: <span id="queueLength">0</span> jobs pending</p>
+                <p>Last Successful Run: <span id="lastRun">...</span></p>
+            </div>
+            <div class="col">
+                <div id="currentJobInfo" style="display:none; background: #e8f4fc; padding: 10px; border-radius: 4px;">
+                    <strong>Current Job:</strong><br>
+                    Initiator: <span id="jobInitiator"></span><br>
+                    Duration: <span id="jobDuration">0s</span>
+                </div>
+            </div>
+            <div>
+                <button id="runBtn" onclick="runScraper()">Run Now (Manual)</button>
+                <button id="cancelBtn" class="stop" onclick="cancelJob()" style="display:none;">Cancel Job</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- HISTORY CARD -->
+    <div class="card">
+        <h2>Recent Execution History</h2>
+        <table id="historyTable">
+            <thead>
+                <tr>
+                    <th>Time</th>
+                    <th>Initiator</th>
+                    <th>Duration</th>
+                    <th>Status</th>
+                    <th>Error</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Populated by JS -->
+            </tbody>
+        </table>
+    </div>
+
+    <!-- LOGS CARD -->
+    <div class="card">
+        <h2>System Logs</h2>
+        <pre id="logs"></pre>
+        <button onclick="fetchLogs()">Refresh Logs</button>
+    </div>
+
+    <!-- CONFIG CARD -->
+    <div class="card">
+        <h2>Configuration</h2>
+        <label>Discord Bot Token</label>
+        <input type="password" id="botToken" placeholder="Bot Token">
+        
+        <label>Webhook Targets</label>
+        <div id="webhookList"></div>
+        <div class="webhook-actions">
+            <span>Each webhook can watch one or more nations from the current towns list.</span>
+            <button type="button" class="secondary-btn" onclick="addWebhookEntry()">Add Webhook</button>
+        </div>
+
+        <label>
+            <input type="checkbox" id="autoScrapeToggle"> Enable Auto Scrape (Daily)
+        </label>
+        
+        <br><br>
+        <button onclick="saveConfig()">Save Configuration</button>
+    </div>
+
+    <script>
+        let availableNations = [];
+
+        // --- API INTERACTIONS ---
+
+        async function fetchStatus() {
+            try {
+                const res = await fetch('/api/status');
+                const data = await res.json();
+                updateUI(data);
+            } catch (e) {
+                console.error("Failed to fetch status", e);
+            }
+        }
+
+        async function runScraper() {
+            if (!confirm('Queue a manual scrape job?')) return;
+            
+            document.getElementById('runBtn').disabled = true;
+            document.getElementById('runBtn').textContent = "Requesting...";
+            
+            try {
+                const res = await fetch('/api/run', { 
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ initiator: 'MANUAL' })
+                });
+                const data = await res.json();
+                if (!data.success) alert('Error: ' + data.message);
+                else fetchLogs();
+            } catch (e) {
+                alert('Request failed');
+            }
+            fetchStatus();
+        }
+
+        async function cancelJob() {
+            if (!confirm('Are you sure you want to cancel the running job?')) return;
+            
+            try {
+                const res = await fetch('/api/cancel', { method: 'POST' });
+                const data = await res.json();
+                if (data.success) alert('Cancellation signal sent.');
+                else alert('Error: ' + data.message);
+            } catch (e) {
+                alert('Request failed');
+            }
+            fetchStatus();
+        }
+
+        async function fetchLogs() {
+            const res = await fetch('/api/logs');
+            const data = await res.json();
+            const pre = document.getElementById('logs');
+            pre.textContent = data.logs;
+            pre.scrollTop = pre.scrollHeight;
+        }
+
+        async function loadNations() {
+            const res = await fetch('/api/nations');
+            const data = await res.json();
+            availableNations = data.nations || [];
+        }
+
+        async function loadConfig() {
+            const res = await fetch('/api/config');
+            const data = await res.json();
+            
+            document.getElementById('botToken').value = data.discord_bot_token || "";
+            renderWebhookEntries(normalizeWebhooks(data.webhooks || []));
+            document.getElementById('autoScrapeToggle').checked = data.auto_scrape !== false;
+        }
+
+        async function saveConfig() {
+            const token = document.getElementById('botToken').value.trim();
+            const webhooks = collectWebhookEntries();
+            const autoScrape = document.getElementById('autoScrapeToggle').checked;
+
+            const config = {
+                discord_bot_token: token,
+                webhooks: webhooks,
+                auto_scrape: autoScrape
+            };
+
+            await fetch('/api/config', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(config)
+            });
+
+            alert('Configuration saved!');
+            fetchStatus();
+        }
+
+        function normalizeWebhooks(webhooks) {
+            if (!Array.isArray(webhooks) || webhooks.length === 0) {
+                return [{ url: '', nations: ['Alchak_Federation'] }];
+            }
+
+            return webhooks.map((entry) => {
+                if (typeof entry === 'string') {
+                    return { url: entry, nations: ['Alchak_Federation'], nation_roles: {} };
+                }
+
+                return {
+                    url: entry.url || '',
+                    nations: Array.isArray(entry.nations) ? entry.nations : [],
+                    nation_roles: entry.nation_roles && typeof entry.nation_roles === 'object' ? entry.nation_roles : {}
+                };
+            });
+        }
+
+        function renderWebhookEntries(entries) {
+            const list = document.getElementById('webhookList');
+            list.innerHTML = '';
+            entries.forEach((entry) => list.appendChild(createWebhookEntry(entry)));
+        }
+
+        function createWebhookEntry(entry = { url: '', nations: [], nation_roles: {} }) {
+            const wrapper = document.createElement('div');
+            wrapper.className = 'webhook-entry';
+            const nationsOptions = availableNations.map((nation) => {
+                const selected = entry.nations.includes(nation) ? 'selected' : '';
+                return `<option value="${escapeHtml(nation)}" ${selected}>${escapeHtml(nation)}</option>`;
+            }).join('');
+            wrapper.innerHTML = `
+                <label>Webhook URL</label>
+                <input type="text" class="webhook-url" placeholder="https://discord.com/api/webhooks/..." value="${escapeHtml(entry.url || '')}">
+                <label>Nations to Ping</label>
+                <select class="webhook-nations" multiple onchange="syncWebhookNationRoles(this)">${nationsOptions}</select>
+                <label>Role IDs For Selected Nations</label>
+                <div class="webhook-role-map"></div>
+                <button type="button" class="stop" onclick="removeWebhookEntry(this)">Remove</button>
+            `;
+            renderWebhookRoleRows(wrapper, entry.nations, entry.nation_roles || {});
+            return wrapper;
+        }
+
+        function addWebhookEntry() {
+            document.getElementById('webhookList').appendChild(createWebhookEntry());
+        }
+
+        function removeWebhookEntry(button) {
+            const list = document.getElementById('webhookList');
+            if (list.children.length === 1) {
+                list.innerHTML = '';
+                addWebhookEntry();
+                return;
+            }
+            button.closest('.webhook-entry').remove();
+        }
+
+        function collectWebhookEntries() {
+            return [...document.querySelectorAll('.webhook-entry')].map((entry) => {
+                const url = entry.querySelector('.webhook-url').value.trim();
+                const nations = [...entry.querySelector('.webhook-nations').selectedOptions].map((option) => option.value);
+                const nationRoles = Object.fromEntries(
+                    [...entry.querySelectorAll('.nation-role-row')].map((row) => {
+                        const nation = row.dataset.nation;
+                        const roleId = row.querySelector('.nation-role-id').value.trim();
+                        return [nation, roleId];
+                    }).filter(([nation, roleId]) => nation && roleId)
+                );
+
+                if (!url) {
+                    return null;
+                }
+
+                return { url, nations, nation_roles: nationRoles };
+            }).filter(Boolean);
+        }
+
+        function renderWebhookRoleRows(wrapper, nations, nationRoles) {
+            const container = wrapper.querySelector('.webhook-role-map');
+            container.innerHTML = '';
+
+            if (nations.length === 0) {
+                container.innerHTML = '<p>Select at least one nation to assign per-webhook role IDs.</p>';
+                return;
+            }
+
+            nations.forEach((nation) => {
+                const row = document.createElement('div');
+                row.className = 'nation-role-row';
+                row.dataset.nation = nation;
+                row.innerHTML = `
+                    <div>
+                        <label>Nation</label>
+                        <input type="text" value="${escapeHtml(nation)}" disabled>
+                    </div>
+                    <div>
+                        <label>Discord Role ID</label>
+                        <input type="text" class="nation-role-id" placeholder="123456789012345678" value="${escapeHtml(nationRoles[nation] || '')}">
+                    </div>
+                `;
+                container.appendChild(row);
+            });
+        }
+
+        function syncWebhookNationRoles(selectEl) {
+            const wrapper = selectEl.closest('.webhook-entry');
+            const existingRoles = Object.fromEntries(
+                [...wrapper.querySelectorAll('.nation-role-row')].map((row) => [
+                    row.dataset.nation,
+                    row.querySelector('.nation-role-id').value.trim()
+                ])
+            );
+            const nations = [...selectEl.selectedOptions].map((option) => option.value);
+            renderWebhookRoleRows(wrapper, nations, existingRoles);
+        }
+
+        function escapeHtml(value) {
+            return value
+                .replaceAll('&', '&amp;')
+                .replaceAll('<', '&lt;')
+                .replaceAll('>', '&gt;')
+                .replaceAll('"', '&quot;');
+        }
+
+        // --- UI UPDATES ---
+
+        function updateUI(data) {
+            // State Badge
+            const badge = document.getElementById('stateBadge');
+            badge.className = 'status-badge';
+            badge.textContent = data.state;
+            
+            if (data.state === 'RUNNING') badge.classList.add('bg-running');
+            else if (data.state === 'QUEUED') badge.classList.add('bg-queued');
+            else if (data.state === 'CANCELLING') badge.classList.add('bg-cancelling');
+            else badge.classList.add('bg-idle');
+
+            // Queue
+            document.getElementById('queueLength').textContent = data.queue_length;
+            document.getElementById('lastRun').textContent = data.last_run || "Never";
+
+            // Buttons
+            const runBtn = document.getElementById('runBtn');
+            const cancelBtn = document.getElementById('cancelBtn');
+
+            if (data.state === 'RUNNING' || data.state === 'CANCELLING') {
+                runBtn.textContent = "Queue Manual Run";
+                runBtn.disabled = false;
+                cancelBtn.style.display = 'inline-block';
+                if (data.state === 'CANCELLING') cancelBtn.disabled = true;
+                else cancelBtn.disabled = false;
+            } else {
+                runBtn.textContent = "Run Now (Manual)";
+                runBtn.disabled = false;
+                cancelBtn.style.display = 'none';
+            }
+
+            // Current Job
+            const jobInfo = document.getElementById('currentJobInfo');
+            if (data.current_job) {
+                jobInfo.style.display = 'block';
+                document.getElementById('jobInitiator').textContent = data.current_job.initiator;
+                const duration = Math.floor(data.current_job.duration / 1000);
+                document.getElementById('jobDuration').textContent = duration + 's';
+            } else {
+                jobInfo.style.display = 'none';
+            }
+
+            // History
+            const tbody = document.querySelector('#historyTable tbody');
+            tbody.innerHTML = '';
+            if (data.history && data.history.length > 0) {
+                data.history.forEach(item => {
+                    const row = document.createElement('tr');
+                    const date = new Date(item.startTime).toLocaleString();
+                    const dur = (item.duration / 1000).toFixed(1) + 's';
+                    const color = item.status === 'SUCCESS' ? 'green' : 'red';
+                    
+                    row.innerHTML = `
+                        <td>${date}</td>
+                        <td>${item.initiator}</td>
+                        <td>${dur}</td>
+                        <td style="color:${color}; font-weight:bold;">${item.status}</td>
+                        <td>${item.error || '-'}</td>
+                    `;
+                    tbody.appendChild(row);
+                });
+            } else {
+                tbody.innerHTML = '<tr><td colspan="5">No recent history</td></tr>';
+            }
+        }
+
+        // --- INIT ---
+        setInterval(fetchStatus, 1000); // Poll status every second
+        fetchStatus();
+        fetchLogs();
+        loadNations().then(loadConfig);
+    </script>
+</body>
+</html>

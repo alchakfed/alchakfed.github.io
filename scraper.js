@@ -1,11 +1,10 @@
-// scraper.js (fixed & verbose)
-// Captures marker_world.json from responses and parses sets -> areas/markers
-
 const fs = require("fs");
-const playwright = require("playwright");
+const fetch = require("node-fetch");
 
 const MAP_URL = "https://map.ccnetmc.com/nationsmap";
+const MARKER_URL = `${MAP_URL}/tiles/_markers_/marker_world.json`;
 const OUTFILE = "towns.json";
+const VERBOSE = process.env.SCRAPER_VERBOSE === "1";
 
 const EXCLUDED_SUBSTRINGS = [
   "WORLD BORDER",
@@ -22,7 +21,7 @@ const EXCLUDED_SUBSTRINGS = [
 
 function parseNumRaw(s) {
   if (s === undefined || s === null) return null;
-  const txt = String(s).replace(/\u00A0/g, " ").trim();
+  const txt = String(s).replace(/\u00A0/g, " ").replace(/\$/g, "").trim();
   const m = txt.match(/-?[\d,]+(?:\.\d+)?/);
   if (!m) return null;
   return Number(m[0].replace(/,/g, ""));
@@ -52,13 +51,13 @@ function extractBankFromDesc(descHtml, descText) {
   if (!descHtml && !descText) return null;
   const s = (descHtml || "") + "\n" + (descText || "");
   // try bank/balance first
-  let m = s.match(/(?:Bank|Balance)[:\s]*\$?\s*([0-9,]+(?:\.[0-9]+)?)/i);
+  let m = s.match(/(?:Bank|Balance)[^:]*:\s*(-?\$?\s*[0-9,]+(?:\.[0-9]+)?)/i);
   if (m && m[1]) return parseNumRaw(m[1]);
   // try towny-money spans
-  m = s.match(/towny-money[^>]*>\s*\$?\s*([0-9,]+(?:\.[0-9]+)?)/i);
+  m = s.match(/towny-money[^>]*>\s*(-?\$?\s*[0-9,]+(?:\.[0-9]+)?)/i);
   if (m && m[1]) return parseNumRaw(m[1]);
   // fallback: any $number
-  m = s.match(/\$\s*([0-9,]+(?:\.[0-9]+)?)/);
+  m = s.match(/-?\$\s*([0-9,]+(?:\.[0-9]+)?)/);
   if (m && m[1]) return parseNumRaw(m[1]);
   return null;
 }
@@ -66,10 +65,10 @@ function extractBankFromDesc(descHtml, descText) {
 function extractUpkeepFromDesc(descHtml, descText) {
   if (!descHtml && !descText) return null;
   const s = (descHtml || "") + "\n" + (descText || "");
-  let m = s.match(/Upkeep[:\s]*\$?\s*([0-9,]+(?:\.[0-9]+)?)/i);
+  let m = s.match(/Upkeep[^:]*:\s*(-?\$?\s*[0-9,]+(?:\.[0-9]+)?)/i);
   if (m && m[1]) return parseNumRaw(m[1]);
   // some pages use "Daily Upkeep" or "Upkeep per day"
-  m = s.match(/Daily\s*Upkeep[:\s]*\$?\s*([0-9,]+(?:\.[0-9]+)?)/i);
+  m = s.match(/Daily\s*Upkeep[^:]*:\s*(-?\$?\s*[0-9,]+(?:\.[0-9]+)?)/i);
   if (m && m[1]) return parseNumRaw(m[1]);
   // fallback: if bank line present we don't want to pick it mistakenly; try towny-money but context is difficult
   // We'll look for second occurrence of money-like values after Bank, assume that might be upkeep
@@ -87,6 +86,8 @@ function extractNationFromDesc(descHtml, descText) {
   // matches "Member of X" or "Capital of X", allowing <a> wrapper
   const m = s.match(/(?:Member|Capital)\s+of\s+(?:<a[^>]*>)?\s*([^<\n]+)/i);
   if (m && m[1]) return m[1].trim();
+  const occupied = s.match(/Occupied\s+by\s+(?:<a[^>]*>)?\s*([^<\n]+)/i);
+  if (occupied && occupied[1]) return occupied[1].trim();
   return null;
 }
 
@@ -113,15 +114,21 @@ function isExcludedLabelOrDesc(label, descHtml, descText, key) {
 function parseAreaOrMarker(key, obj) {
   // obj expected to contain label and desc
   if (!obj || typeof obj !== "object") {
-    console.log("skip: invalid obj for", key);
+    if (VERBOSE) console.log("skip: invalid obj for", key);
     return null;
   }
-    // must have coordinates or else it's a nation banner / region label
-  if (
-    obj.x === undefined || obj.y === undefined || obj.z === undefined ||
-    obj.x === null || obj.y === null || obj.z === null
-  ) {
-    console.log("skip: not a real town marker (no coords):", key, obj.label);
+
+  const hasPointCoordinates =
+    typeof obj.x === "number" &&
+    typeof obj.z === "number";
+  const hasAreaCoordinates =
+    Array.isArray(obj.x) &&
+    Array.isArray(obj.z) &&
+    obj.x.length > 0 &&
+    obj.z.length > 0;
+
+  if (!hasPointCoordinates && !hasAreaCoordinates) {
+    if (VERBOSE) console.log("skip: not a real town marker (no coords):", key, obj.label);
     return null;
   }
 
@@ -132,20 +139,20 @@ function parseAreaOrMarker(key, obj) {
 
   // must have explicit label (strict)
   if (!label || String(label).trim() === "") {
-    console.log("skip: no label for", key);
+    if (VERBOSE) console.log("skip: no label for", key);
     return null;
   }
 
   // exclusion checks
   const ex = isExcludedLabelOrDesc(label, descHtml, descText, key);
   if (ex.excluded) {
-    console.log(`excluded ${key} (${label}) reason=${ex.reason}`);
+    if (VERBOSE) console.log(`excluded ${key} (${label}) reason=${ex.reason}`);
     return null;
   }
 
   // avoid labels that are actually "Member of ..." etc
   if (/^(Member|Capital)\s+of/i.test(label)) {
-    console.log("skip: label looks like nation not town:", label, key);
+    if (VERBOSE) console.log("skip: label looks like nation not town:", label, key);
     return null;
   }
 
@@ -154,51 +161,34 @@ function parseAreaOrMarker(key, obj) {
   const bank = extractBankFromDesc(descHtml, descText);
   const upkeep = extractUpkeepFromDesc(descHtml, descText);
 
-  console.log("parsed raw:", key, {town, nation, bank, upkeep});
+  if (VERBOSE) console.log("parsed raw:", key, {town, nation, bank, upkeep});
 
   return { key, town, nation, bank, upkeep };
 }
 
-(async () => {
-  const browser = await playwright.chromium.launch({ headless: true });
-  const context = await browser.newContext();
-  let markerJSON = null;
-
-  context.on("response", async (resp) => {
-    const url = resp.url();
-    if (!url) return;
-    if (url.includes("marker_world.json")) {
-      console.log("Captured response:", url);
-      try {
-        markerJSON = await resp.json();
-        console.log("marker JSON size keys:", Object.keys(markerJSON || {}).length);
-      } catch (err) {
-        console.error("Error parsing JSON response:", err.message);
-      }
+async function main() {
+  console.log("Fetching marker data from:", MARKER_URL);
+  const response = await fetch(MARKER_URL, {
+    headers: {
+      "user-agent": "alchakfederation-scraper/1.0"
     }
   });
 
-  const page = await context.newPage();
-  console.log("Navigating to map page...");
-  await page.goto(MAP_URL, { waitUntil: "networkidle" });
-
-  // wait short loop for the marker JSON to arrive
-  for (let i = 0; i < 30 && !markerJSON; i++) {
-    await page.waitForTimeout(300);
+  if (!response.ok) {
+    throw new Error(`Failed to fetch marker JSON: ${response.status} ${response.statusText}`);
   }
 
-  if (!markerJSON) {
-    console.error("ERROR: Did not capture marker_world.json from responses.");
-    await browser.close();
-    process.exit(1);
-  }
-
+  const markerJSON = await response.json();
   // markerJSON can be either { sets: { ... } } or directly a map of keys
   const entries = [];
 
   if (markerJSON.sets && typeof markerJSON.sets === "object") {
     console.log("Processing marker JSON via sets -> areas/markers");
     for (const setName of Object.keys(markerJSON.sets)) {
+      if (setName !== "towny.markerset") {
+        continue;
+      }
+
       const set = markerJSON.sets[setName];
       if (!set || typeof set !== "object") continue;
 
@@ -234,12 +224,17 @@ function parseAreaOrMarker(key, obj) {
     const townKey = e.town.trim();
     const lc = townKey.toLowerCase();
     if (!byTown.has(lc)) {
-      byTown.set(lc, { town: townKey, nation: e.nation || null, bank: e.bank || null, upkeep: e.upkeep || null });
+      byTown.set(lc, {
+        town: townKey,
+        nation: e.nation ?? null,
+        bank: e.bank ?? null,
+        upkeep: e.upkeep ?? null
+      });
     } else {
       const cur = byTown.get(lc);
-      if ((cur.bank === null || cur.bank === undefined) && e.bank) cur.bank = e.bank;
-      if ((cur.upkeep === null || cur.upkeep === undefined) && e.upkeep) cur.upkeep = e.upkeep;
-      if ((!cur.nation || cur.nation === null) && e.nation) cur.nation = e.nation;
+      if ((cur.bank === null || cur.bank === undefined) && e.bank !== null && e.bank !== undefined) cur.bank = e.bank;
+      if ((cur.upkeep === null || cur.upkeep === undefined) && e.upkeep !== null && e.upkeep !== undefined) cur.upkeep = e.upkeep;
+      if ((cur.nation === null || cur.nation === undefined) && e.nation) cur.nation = e.nation;
     }
   }
 
@@ -247,17 +242,24 @@ function parseAreaOrMarker(key, obj) {
   for (const [lc, obj] of byTown.entries()) {
     final.push({
       town: obj.town,
-      nation: obj.nation === undefined ? null : obj.nation,
-      bank: obj.bank === undefined ? null : obj.bank,
-      upkeep: obj.upkeep === undefined ? null : obj.upkeep,
+      nation: obj.nation ?? null,
+      bank: obj.bank ?? null,
+      upkeep: obj.upkeep ?? null,
       days_rounded: computeDays(obj.bank, obj.upkeep)
     });
   }
 
+  final.sort((a, b) => a.town.localeCompare(b.town));
   console.log("FINAL unique towns:", final.length);
 
-  fs.writeFileSync(OUTFILE, JSON.stringify({ scraped_at: new Date().toISOString(), source: MAP_URL, towns: final }, null, 2));
+  fs.writeFileSync(
+    OUTFILE,
+    `${JSON.stringify({ scraped_at: new Date().toISOString(), source: MAP_URL, towns: final }, null, 2)}\n`
+  );
   console.log("WROTE", OUTFILE);
+}
 
-  await browser.close();
-})();
+main().catch((error) => {
+  console.error(error.message || error);
+  process.exit(1);
+});

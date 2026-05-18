@@ -6,6 +6,8 @@
     "@playwright/test": "^1.57.0",
     "axios": "^1.13.2",
     "canvas": "^3.2.0",
+    "discord.js": "^14.26.3",
+    "express": "^5.2.1",
     "fs-extra": "^11.3.2",
     "node-cache": "^5.1.2",
     "node-fetch": "^2.7.0",
@@ -14,7 +16,9 @@
     "puppeteer": "^24.32.1"
   },
   "scripts": {
-    "scrape": "node scraper.js"
+    "scrape": "node scraper.js",
+    "cron": "node run_daily.js",
+    "test": "node tests/compressor.test.js"
   },
   "description": "",
   "main": "scraper.js",

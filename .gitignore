@@ -1,0 +1,11 @@
+node_modules/
+.vscode/
+config.json
+daemon.log
+daily_update.log
+startup_check.log
+archive.log
+captures/
+output/
+processed_dynmap/
+.github/workflows/node_modules/
