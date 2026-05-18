@@ -1,23 +1,19 @@
 name: Daily Scrape
 
 on:
-  schedule:
-    - cron: '30 19 * * *'
   workflow_dispatch:
+  schedule:
+    - cron: "30 19 * * *"
 
 permissions:
   contents: write
 
-concurrency:
-  group: daily-scrape
-  cancel-in-progress: false
-
 jobs:
   scrape:
     runs-on: ubuntu-latest
-
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
@@ -28,7 +24,7 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Run scheduled scrape
+      - name: Run daily scrape
         run: npm run cron
         env:
           CONFIG_JSON: ${{ secrets.CONFIG_JSON }}
@@ -44,4 +40,3 @@ jobs:
           fi
           git commit -m "Update towns.json (automated)"
           git push
-
