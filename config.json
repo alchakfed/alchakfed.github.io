@@ -1,0 +1,32 @@
+{
+  "port": 3000,
+  "auto_scrape": true,
+  "max_manual_runs_per_hour": 5,
+  "webhooks": [
+    {
+      "url": "https://discord.com/api/webhooks/1465462605110972516/aaml06jL4TRqQSdXGDKr34zqrDpNUelo_8HE_rnyeUywfKtTZ2PUXn64lPCtcUJTNGp4",
+      "nations": [
+        "Alchak_Federation"
+      ]
+    },
+    {
+      "url": "https://discord.com/api/webhooks/1491530670290370692/dcuzMNA6Y1nZEfDnDm3qVkRZIhGrUxpSt85QlwE8cFm_TDp1R7WP0008jfyi3zO1jbn5",
+      "nations": [
+        "Alchak_Federation",
+        "Eastern_Columbia",
+        "Imperial_Federation",
+        "Kingdom_Of_Ethiopia",
+        "Polaris",
+        "The_Great_Lotus_Empire",
+        "West_Coast_Republic"
+      ]
+    }
+  ],
+  "discord_bot_token": "",
+  "last_run": "2026-05-18",
+  "upkeep_channel_id": "",
+  "ping_role_id": "1217466685741731930",
+  "nation_role_ids": {
+    "Alchak_Federation": "1217466685741731930"
+  }
+}
