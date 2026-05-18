@@ -12,7 +12,9 @@ const WATCH_SUBSTRING = "dynmap_world.json";
 const RAW_CACHE_TTL = 60;
 const PROCESSED_CACHE_TTL = 3 * 24 * 60 * 60;
 const PROCESS_INTERVAL_MS = 500;
-const OUTPUT_DIR = path.resolve(process.cwd(), "processed_dynmap");
+const OUTPUT_DIR = process.env.DYNMAP_OUTPUT_DIR
+  ? path.resolve(process.env.DYNMAP_OUTPUT_DIR)
+  : path.resolve(process.cwd(), "processed_dynmap");
 
 if (!fs.existsSync(OUTPUT_DIR)) fs.mkdirSync(OUTPUT_DIR, { recursive: true });
 
