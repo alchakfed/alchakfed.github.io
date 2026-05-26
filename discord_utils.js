@@ -34,12 +34,38 @@ function getConfig() {
     return loadConfig();
 }
 
-function loadTownsData() {
-    if (!fs.existsSync(TOWNS_PATH)) {
-        return [];
+function normalizeTownsPayload(payload) {
+    if (!payload || typeof payload !== 'object' || !Array.isArray(payload.towns)) {
+        throw new Error('Payload must be a JSON object with a towns array.');
     }
 
-    return JSON.parse(fs.readFileSync(TOWNS_PATH, 'utf8')).towns || [];
+    return {
+        scraped_at: payload.scraped_at || new Date().toISOString(),
+        source: payload.source || null,
+        towns: payload.towns
+    };
+}
+
+function loadTownsPayload() {
+    if (!fs.existsSync(TOWNS_PATH)) {
+        return {
+            scraped_at: null,
+            source: null,
+            towns: []
+        };
+    }
+
+    return normalizeTownsPayload(JSON.parse(fs.readFileSync(TOWNS_PATH, 'utf8')));
+}
+
+function loadTownsData() {
+    return loadTownsPayload().towns;
+}
+
+function saveTownsPayload(payload) {
+    const normalized = normalizeTownsPayload(payload);
+    fs.writeFileSync(TOWNS_PATH, `${JSON.stringify(normalized, null, 2)}\n`);
+    return normalized;
 }
 
 function readState() {
@@ -231,13 +257,13 @@ function getNationStats(townsData, nation) {
 }
 
 function formatTownLine(town) {
-    const emoji = town.days_rounded !== null && town.days_rounded <= 2
-        ? '🚨'
+    const marker = town.days_rounded !== null && town.days_rounded <= 2
+        ? '[CRITICAL]'
         : town.days_rounded !== null && town.days_rounded <= 5
-            ? '⚠️'
-            : '•';
+            ? '[WATCH]'
+            : '[OK]';
 
-    return `${emoji} **${town.town}** • ${formatDays(town.days_rounded)} • bank $${formatMoney(town.bank)} • upkeep $${formatMoney(town.upkeep)}`;
+    return `${marker} **${town.town}** | ${formatDays(town.days_rounded)} | bank $${formatMoney(town.bank)} | upkeep $${formatMoney(town.upkeep)}`;
 }
 
 function buildNationEmbed(discord, nation, townsData) {
@@ -256,7 +282,7 @@ function buildNationEmbed(discord, nation, townsData) {
             `**Daily upkeep:** $${formatMoney(stats.totalUpkeep)}`,
             `**Lowest buffer:** ${lowestTown ? `${lowestTown.town} (${formatDays(lowestTown.days_rounded)})` : 'n/a'}`
         ].join('\n'))
-        .setFooter({ text: 'Updated automatically from towns.json' })
+        .setFooter({ text: 'Updated automatically from synced towns data' })
         .setTimestamp();
 
     embed.addFields(
@@ -445,6 +471,20 @@ async function createTransientClient(config) {
     return client;
 }
 
+async function getDeliveryClient(config) {
+    if (botClient?.isReady()) {
+        return {
+            client: botClient,
+            destroyWhenDone: false
+        };
+    }
+
+    return {
+        client: await createTransientClient(config),
+        destroyWhenDone: true
+    };
+}
+
 async function syncBotMessages(townsData) {
     const config = getConfig();
     if (!config.discord_bot_token) {
@@ -460,7 +500,8 @@ async function syncBotMessages(townsData) {
 
     const state = readState();
     const watchedNations = getWatchedNations(config, townsData);
-    const client = await createTransientClient(config);
+    const delivery = await getDeliveryClient(config);
+    const client = delivery.client;
     let stateChanged = false;
 
     try {
@@ -500,7 +541,9 @@ async function syncBotMessages(townsData) {
             }
         }
     } finally {
-        await client.destroy();
+        if (delivery.destroyWhenDone && client) {
+            await client.destroy();
+        }
     }
 
     if (stateChanged) {
@@ -561,6 +604,12 @@ async function runDiscordDelivery(townsData) {
     await sendWebhookUpdate(townsData);
 }
 
+async function processIncomingTownsPayload(payload) {
+    const normalized = saveTownsPayload(payload);
+    await runDiscordDelivery(normalized.towns);
+    return normalized;
+}
+
 async function startBot() {
     const config = getConfig();
     if (!config.discord_bot_token) {
@@ -609,6 +658,9 @@ async function startBot() {
 }
 
 module.exports = {
+    loadTownsPayload,
+    processIncomingTownsPayload,
+    saveTownsPayload,
     startBot,
     sendWebhookUpdate: runDiscordDelivery,
     STATE_PATH

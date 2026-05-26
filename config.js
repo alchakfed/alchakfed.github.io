@@ -10,6 +10,7 @@ const DEFAULT_CONFIG = {
   webhooks: [],
   discord_bot_token: '',
   discord_guild_id: '',
+  sync_shared_secret: '',
   upkeep_channel_id: '',
   default_watched_nations: [],
   nation_role_ids: {},
@@ -47,6 +48,10 @@ function readEnvConfig() {
 
   if (process.env.DISCORD_GUILD_ID) {
     envConfig.discord_guild_id = process.env.DISCORD_GUILD_ID;
+  }
+
+  if (process.env.SYNC_SHARED_SECRET) {
+    envConfig.sync_shared_secret = process.env.SYNC_SHARED_SECRET;
   }
 
   if (process.env.WEBHOOKS_JSON) {

@@ -3,7 +3,7 @@ const path = require('path');
 const { spawn } = require('child_process');
 const readline = require('readline');
 const { loadConfig, saveConfig } = require('./config');
-const { startBot, sendWebhookUpdate } = require('./discord_utils');
+const { startBot, sendWebhookUpdate, processIncomingTownsPayload } = require('./discord_utils');
 
 const PORT = 3000;
 const LOG_FILE = path.join(__dirname, 'daemon.log');
@@ -433,6 +433,26 @@ function getConfig() {
     return loadConfig();
 }
 
+function getSyncSecret() {
+    return String(getConfig().sync_shared_secret || '').trim();
+}
+
+function requireSyncAuth(req, res, next) {
+    const configuredSecret = getSyncSecret();
+    if (!configuredSecret) {
+        res.status(503).json({ success: false, message: 'Sync secret is not configured on the bot host.' });
+        return;
+    }
+
+    const providedSecret = String(req.header('x-sync-secret') || '');
+    if (providedSecret !== configuredSecret) {
+        res.status(401).json({ success: false, message: 'Invalid sync secret.' });
+        return;
+    }
+
+    next();
+}
+
 function cancelCurrentJob() {
     return new Promise((resolve, reject) => {
         if (systemState !== STATE.RUNNING || !currentJob) {
@@ -483,7 +503,7 @@ function startHttpServer() {
     const express = require('express');
     const app = express();
 
-    app.use(express.json());
+    app.use(express.json({ limit: '5mb' }));
     app.use(express.static('public'));
 
     app.get('/', (req, res) => {
@@ -492,6 +512,14 @@ function startHttpServer() {
 
     app.get('/api/status', (req, res) => {
         res.json(getStatusSnapshot());
+    });
+
+    app.get('/healthz', (req, res) => {
+        res.json({
+            ok: true,
+            state: getStatusSnapshot().state,
+            bot_sync_ready: Boolean(getSyncSecret())
+        });
     });
 
     app.post('/api/run', (req, res) => {
@@ -522,6 +550,26 @@ function startHttpServer() {
     app.post('/api/config', (req, res) => {
         updateConfig(req.body);
         res.json({ success: true });
+    });
+
+    app.post('/api/towns-sync', requireSyncAuth, async (req, res) => {
+        try {
+            const payload = await processIncomingTownsPayload(req.body);
+            const currentConfig = getConfig();
+            currentConfig.last_run = String(payload.scraped_at).split('T')[0];
+            saveConfig(currentConfig);
+            res.json({
+                success: true,
+                message: `Processed ${payload.towns.length} towns.`,
+                scraped_at: payload.scraped_at
+            });
+        } catch (error) {
+            log(`Remote towns sync failed: ${error.message}`, 'REMOTE_SYNC', 'ERROR');
+            res.status(400).json({
+                success: false,
+                message: error.message || 'Failed to process synced towns payload.'
+            });
+        }
     });
 
     const port = getPort();
