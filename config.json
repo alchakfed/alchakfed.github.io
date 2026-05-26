@@ -2,19 +2,14 @@
   "port": 3000,
   "auto_scrape": true,
   "max_manual_runs_per_hour": 5,
-  "webhooks": [
-    {
-      "url": "https://discord.com/api/webhooks/1465462605110972516/aaml06jL4TRqQSdXGDKr34zqrDpNUelo_8HE_rnyeUywfKtTZ2PUXn64lPCtcUJTNGp4",
-      "nations": [
-        "Alchak_Federation"
-      ]
-    },
-  ],
-  "discord_bot_token": "",
-  "last_run": "2026-05-18",
-  "upkeep_channel_id": "",
-  "ping_role_id": "1217466685741731930",
+  "webhooks": [],
+  "discord_bot_token": "MTUwODg2NzM1Mjg4Njc3NTk4Mg.GQe4kG.9iQvD67-UNaafMTa_dgVPbuApVaYlOGTx-dE4g",
+  "discord_guild_id": "932738732258390027",
+  "upkeep_channel_id": "1505156673080262776",
+  "default_watched_nations": [],
   "nation_role_ids": {
     "Alchak_Federation": "1217466685741731930"
-  }
+  },
+  "ping_role_id": "1217466685741731930",
+  "last_run": "2026-05-26"
 }
