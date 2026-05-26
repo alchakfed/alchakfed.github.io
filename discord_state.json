@@ -1,4 +1,12 @@
 {
-  "report_messages": {},
-  "nation_menu_message": null
+  "report_messages": {
+    "Alchak_Federation": {
+      "channel_id": "1505156673080262776",
+      "message_id": "1508881595577401364"
+    }
+  },
+  "nation_menu_message": {
+    "channel_id": "1505156673080262776",
+    "message_id": "1508881596327919647"
+  }
 }
