@@ -40,12 +40,17 @@ jobs:
             echo "Missing RENDER_SYNC_URL or SYNC_SHARED_SECRET."
             exit 1
           fi
+          SYNC_URL="${RENDER_SYNC_URL%/}"
+          if ! echo "$SYNC_URL" | grep -q "/api/towns-sync$"; then
+            SYNC_URL="$SYNC_URL/api/towns-sync"
+          fi
+          echo "Sending towns payload to $SYNC_URL"
           curl --fail --show-error --silent \
             -X POST \
             -H "Content-Type: application/json" \
             -H "x-sync-secret: $SYNC_SHARED_SECRET" \
             --data-binary @towns.json \
-            "$RENDER_SYNC_URL"
+            "$SYNC_URL"
 
       - name: Commit updated data files
         run: |
