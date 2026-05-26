@@ -7,6 +7,7 @@ const STATE_PATH = path.join(__dirname, 'discord_state.json');
 const REPORT_CUSTOM_ID_PREFIX = 'nation_report_select';
 const TOWN_SELECT_CUSTOM_ID_PREFIX = 'town_select';
 const TOWN_STATUS_CUSTOM_ID_PREFIX = 'town_status';
+const TOWN_TOKEN_CUSTOM_ID_PREFIX = 'tt';
 const MAX_FIELD_LENGTH = 1024;
 const MAX_SELECT_ROWS = 5;
 
@@ -76,7 +77,8 @@ function readState() {
         return {
             report_messages: {},
             nation_menu_message: null,
-            town_statuses: {}
+            town_statuses: {},
+            town_tokens: {}
         };
     }
 
@@ -91,6 +93,9 @@ function readState() {
                 : null,
             town_statuses: state.town_statuses && typeof state.town_statuses === 'object'
                 ? state.town_statuses
+                : {},
+            town_tokens: state.town_tokens && typeof state.town_tokens === 'object'
+                ? state.town_tokens
                 : {}
         };
     } catch (error) {
@@ -98,7 +103,8 @@ function readState() {
         return {
             report_messages: {},
             nation_menu_message: null,
-            town_statuses: {}
+            town_statuses: {},
+            town_tokens: {}
         };
     }
 }
@@ -270,6 +276,14 @@ function getTownStatus(state, nation, townName) {
 
 function getTownStatusMarker(status) {
     if (status === 'claim') {
+        return '\u2705';
+    }
+
+    if (status === 'fall') {
+        return '\u274c';
+    }
+
+    if (status === 'claim') {
         return '✅';
     }
 
@@ -336,6 +350,23 @@ function decodeCustomPart(value) {
     return Buffer.from(String(value), 'base64url').toString('utf8');
 }
 
+function getTownToken(nation, townName) {
+    const encoded = encodeCustomPart(`${nation}\n${townName}`);
+    return encoded.slice(0, 48);
+}
+
+function rememberTownToken(state, nation, townName) {
+    state.town_tokens = state.town_tokens || {};
+    const token = getTownToken(nation, townName);
+    state.town_tokens[token] = { nation, town: townName };
+    saveState(state);
+    return token;
+}
+
+function resolveTownToken(state, token) {
+    return state.town_tokens?.[token] || null;
+}
+
 function getNationTowns(townsData, nation) {
     return townsData
         .filter((town) => town.nation === nation)
@@ -380,8 +411,7 @@ function getPendingBalance(town) {
 
 function buildTownDetailPayload(discord, nation, town, state = readState(), options = {}) {
     const { ActionRowBuilder, ButtonBuilder, ButtonStyle, EmbedBuilder } = discord;
-    const encodedNation = encodeCustomPart(nation);
-    const encodedTown = encodeCustomPart(town.town);
+    const token = rememberTownToken(state, nation, town.town);
     const status = getTownStatus(state, nation, town.town);
     const statusLabel = status === 'claim' ? 'Claimed' : status === 'fall' ? 'Falling' : 'Unmarked';
 
@@ -400,11 +430,11 @@ function buildTownDetailPayload(discord, nation, town, state = readState(), opti
 
     const row = new ActionRowBuilder().addComponents(
         new ButtonBuilder()
-            .setCustomId(`${TOWN_STATUS_CUSTOM_ID_PREFIX}:claim:${encodedNation}:${encodedTown}`)
+            .setCustomId(`${TOWN_STATUS_CUSTOM_ID_PREFIX}:claim:${token}`)
             .setLabel('Claim')
             .setStyle(ButtonStyle.Success),
         new ButtonBuilder()
-            .setCustomId(`${TOWN_STATUS_CUSTOM_ID_PREFIX}:fall:${encodedNation}:${encodedTown}`)
+            .setCustomId(`${TOWN_STATUS_CUSTOM_ID_PREFIX}:fall:${token}`)
             .setLabel('Fall')
             .setStyle(ButtonStyle.Danger)
     );
@@ -592,16 +622,17 @@ async function refreshNationReportMessage(client, nation, townsData, state) {
     const discord = getDiscordLib();
     const ref = state.report_messages?.[nation];
     if (!discord || !ref?.channel_id || !ref?.message_id) {
-        return;
+        return false;
     }
 
     const channel = await fetchTextChannel(client, ref.channel_id);
     if (!channel) {
-        return;
+        return false;
     }
 
     const message = await channel.messages.fetch(ref.message_id);
     await message.edit(buildNationReportPayload(discord, nation, townsData, state));
+    return true;
 }
 
 async function handleTownStatusButton(interaction) {
@@ -611,9 +642,16 @@ async function handleTownStatusButton(interaction) {
         return;
     }
 
-    const [, status, encodedNation, encodedTown] = interaction.customId.split(':');
-    const nation = decodeCustomPart(encodedNation);
-    const townName = decodeCustomPart(encodedTown);
+    const [, status, token] = interaction.customId.split(':');
+    const tokenState = readState();
+    const tokenEntry = resolveTownToken(tokenState, token);
+    if (!tokenEntry) {
+        await interaction.reply({ content: 'That town action expired. Select the town again from the dropdown.', ephemeral: true });
+        return;
+    }
+
+    const nation = tokenEntry.nation;
+    const townName = tokenEntry.town;
     const townsData = loadTownsData();
     const town = findTown(townsData, nation, townName);
 
@@ -628,7 +666,12 @@ async function handleTownStatusButton(interaction) {
     state.town_statuses[nation][townName] = status === 'fall' ? 'fall' : 'claim';
     saveState(state);
 
-    await refreshNationReportMessage(interaction.client, nation, townsData, state);
+    try {
+        await refreshNationReportMessage(interaction.client, nation, townsData, state);
+    } catch (error) {
+        console.warn(`[Discord] Failed to refresh report for ${nation}/${townName}: ${error.message}`);
+    }
+
     await interaction.update(buildTownDetailPayload(discord, nation, town, state, { ephemeral: false }));
 }
 
@@ -834,7 +877,7 @@ async function startBot() {
                 await handleTownStatusButton(interaction);
             }
         } catch (error) {
-            console.error(`[Discord] Interaction failed: ${error.message}`);
+            console.error(`[Discord] Interaction failed (${interaction.type}:${interaction.customId || interaction.commandName || 'unknown'}): ${error.stack || error.message}`);
             if (!interaction.replied && !interaction.deferred) {
                 await interaction.reply({ content: 'Something went wrong while processing that Discord action.', ephemeral: true });
             }
