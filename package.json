@@ -6,8 +6,8 @@
     "@playwright/test": "^1.57.0",
     "axios": "^1.13.2",
     "canvas": "^3.2.0",
-    "discord.js": "^14.26.3",
-    "express": "^5.2.1",
+    "discord.js": "^14.25.1",
+    "express": "^5.1.0",
     "fs-extra": "^11.3.2",
     "node-cache": "^5.1.2",
     "node-fetch": "^2.7.0",
@@ -18,19 +18,19 @@
   "scripts": {
     "scrape": "node scraper.js",
     "cron": "node run_daily.js",
-    "test": "node tests/compressor.test.js"
+    "bot": "node daemon.js serve"
   },
   "description": "",
   "main": "scraper.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/alchakfederation/alchakfederation.github.io.git"
+    "url": "git+https://github.com/alchakfed/alchakfed.github.io.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/alchakfederation/alchakfederation.github.io/issues"
+    "url": "https://github.com/alchakfed/alchakfed.github.io/issues"
   },
-  "homepage": "https://github.com/alchakfederation/alchakfederation.github.io#readme"
+  "homepage": "https://github.com/alchakfed/alchakfed.github.io#readme"
 }

@@ -8,7 +8,13 @@ const DEFAULT_CONFIG = {
   auto_scrape: true,
   max_manual_runs_per_hour: 5,
   webhooks: [],
-  discord_bot_token: ''
+  discord_bot_token: '',
+  discord_guild_id: '',
+  upkeep_channel_id: '',
+  default_watched_nations: [],
+  nation_role_ids: {},
+  ping_role_id: '',
+  last_run: null
 };
 
 function readJsonFile(filePath) {
@@ -37,6 +43,10 @@ function readEnvConfig() {
 
   if (process.env.DISCORD_BOT_TOKEN) {
     envConfig.discord_bot_token = process.env.DISCORD_BOT_TOKEN;
+  }
+
+  if (process.env.DISCORD_GUILD_ID) {
+    envConfig.discord_guild_id = process.env.DISCORD_GUILD_ID;
   }
 
   if (process.env.WEBHOOKS_JSON) {

@@ -28,15 +28,17 @@ jobs:
         run: npm run cron
         env:
           CONFIG_JSON: ${{ secrets.CONFIG_JSON }}
+          DISCORD_BOT_TOKEN: ${{ secrets.DISCORD_BOT_TOKEN }}
+          DISCORD_GUILD_ID: ${{ secrets.DISCORD_GUILD_ID }}
 
-      - name: Commit updated towns.json
+      - name: Commit updated data files
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add towns.json
+          git add towns.json discord_state.json
           if git diff --staged --quiet; then
-            echo "No towns.json changes to commit."
+            echo "No towns.json or discord_state.json changes to commit."
             exit 0
           fi
-          git commit -m "Update towns.json (automated)"
+          git commit -m "Update towns.json and Discord state (automated)"
           git push

@@ -408,7 +408,9 @@ function executeScraper(initiator, resolve, reject) {
 
             try {
                 const townsData = JSON.parse(fs.readFileSync('towns.json', 'utf8')).towns;
-                sendWebhookUpdate(townsData);
+                sendWebhookUpdate(townsData).catch((error) => {
+                    log(`Discord delivery failed: ${error.message}`, initiator, 'ERROR');
+                });
             } catch (e) {
                 log(`Webhook trigger failed: ${e.message}`, initiator, 'ERROR');
             }

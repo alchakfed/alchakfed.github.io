@@ -1,4 +1,13 @@
 {
+  "discord_bot_token": "",
+  "discord_guild_id": "",
+  "upkeep_channel_id": "",
+  "default_watched_nations": [
+    "Alchak_Federation"
+  ],
+  "nation_role_ids": {
+    "Alchak_Federation": ""
+  },
   "webhooks": [
     {
       "url": "https://discord.com/api/webhooks/replace-me",
@@ -8,7 +17,6 @@
       "nation_roles": {}
     }
   ],
-  "discord_bot_token": "",
   "port": 3000,
   "auto_scrape": true,
   "max_manual_runs_per_hour": 5
