@@ -507,6 +507,10 @@ function startHttpServer() {
     app.use(express.static('public'));
 
     app.get('/', (req, res) => {
+        res.type('html').send('<!doctype html><html><head><title></title></head><body></body></html>');
+    });
+
+    app.get('/dashboard', (req, res) => {
         res.sendFile(path.join(__dirname, 'public', 'dashboard.html'));
     });
 

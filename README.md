@@ -21,6 +21,12 @@ This repo can run locally with `daemon.js`, and it can also run on GitHub Action
 
 If you host the bot on Render, let Render handle Discord and let GitHub only send fresh town data there.
 
+Visiting the Render root URL wakes the service with a blank page:
+
+```text
+https://alchakfed-github-io.onrender.com/
+```
+
 Render environment variables:
 
 - `DISCORD_BOT_TOKEN`
@@ -47,6 +53,8 @@ How it works:
 2. GitHub Actions runs the scraper on schedule.
 3. GitHub `POST`s the new `towns.json` payload to Render at `/api/towns-sync`.
 4. Render saves the payload locally and refreshes the persistent Discord messages.
+
+Each preset nation report includes a town dropdown for that nation. Selecting a town sends a private detail message with bank, upkeep, pending balance, and `Claim` / `Fall` buttons. `Claim` marks the town with a checkmark in the public report list, and `Fall` marks it with an X.
 
 ## GitHub Actions
 

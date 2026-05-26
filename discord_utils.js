@@ -5,7 +5,10 @@ const { loadConfig } = require('./config');
 const TOWNS_PATH = path.join(__dirname, 'towns.json');
 const STATE_PATH = path.join(__dirname, 'discord_state.json');
 const REPORT_CUSTOM_ID_PREFIX = 'nation_report_select';
+const TOWN_SELECT_CUSTOM_ID_PREFIX = 'town_select';
+const TOWN_STATUS_CUSTOM_ID_PREFIX = 'town_status';
 const MAX_FIELD_LENGTH = 1024;
+const MAX_SELECT_ROWS = 5;
 
 let discordLib = null;
 let discordLoadError = null;
@@ -72,7 +75,8 @@ function readState() {
     if (!fs.existsSync(STATE_PATH)) {
         return {
             report_messages: {},
-            nation_menu_message: null
+            nation_menu_message: null,
+            town_statuses: {}
         };
     }
 
@@ -84,13 +88,17 @@ function readState() {
                 : {},
             nation_menu_message: state.nation_menu_message && typeof state.nation_menu_message === 'object'
                 ? state.nation_menu_message
-                : null
+                : null,
+            town_statuses: state.town_statuses && typeof state.town_statuses === 'object'
+                ? state.town_statuses
+                : {}
         };
     } catch (error) {
         console.warn(`[Discord] Failed to parse discord_state.json: ${error.message}`);
         return {
             report_messages: {},
-            nation_menu_message: null
+            nation_menu_message: null,
+            town_statuses: {}
         };
     }
 }
@@ -256,17 +264,34 @@ function getNationStats(townsData, nation) {
     };
 }
 
-function formatTownLine(town) {
-    const marker = town.days_rounded !== null && town.days_rounded <= 2
+function getTownStatus(state, nation, townName) {
+    return state.town_statuses?.[nation]?.[townName] || null;
+}
+
+function getTownStatusMarker(status) {
+    if (status === 'claim') {
+        return '✅';
+    }
+
+    if (status === 'fall') {
+        return '❌';
+    }
+
+    return null;
+}
+
+function formatTownLine(town, state = readState()) {
+    const savedMarker = getTownStatusMarker(getTownStatus(state, town.nation, town.town));
+    const marker = savedMarker || (town.days_rounded !== null && town.days_rounded <= 2
         ? '[CRITICAL]'
         : town.days_rounded !== null && town.days_rounded <= 5
             ? '[WATCH]'
-            : '[OK]';
+            : '[OK]');
 
     return `${marker} **${town.town}** | ${formatDays(town.days_rounded)} | bank $${formatMoney(town.bank)} | upkeep $${formatMoney(town.upkeep)}`;
 }
 
-function buildNationEmbed(discord, nation, townsData) {
+function buildNationEmbed(discord, nation, townsData, state = readState()) {
     const { EmbedBuilder } = discord;
     const stats = getNationStats(townsData, nation);
     const riskCount = stats.critical.length + stats.warning.length;
@@ -288,19 +313,112 @@ function buildNationEmbed(discord, nation, townsData) {
     embed.addFields(
         {
             name: 'Critical (<= 2 days)',
-            value: trimFieldValue(stats.critical.map(formatTownLine), 'No critical towns right now.')
+            value: trimFieldValue(stats.critical.map((town) => formatTownLine(town, state)), 'No critical towns right now.')
         },
         {
             name: 'Watchlist (3-5 days)',
-            value: trimFieldValue(stats.warning.map(formatTownLine), 'No towns in the 3-5 day range.')
+            value: trimFieldValue(stats.warning.map((town) => formatTownLine(town, state)), 'No towns in the 3-5 day range.')
         },
         {
             name: 'Lowest Buffers Overall',
-            value: trimFieldValue(stats.lowestBuffers.map(formatTownLine), 'No towns found for this nation.')
+            value: trimFieldValue(stats.lowestBuffers.map((town) => formatTownLine(town, state)), 'No towns found for this nation.')
         }
     );
 
     return embed;
+}
+
+function encodeCustomPart(value) {
+    return Buffer.from(String(value), 'utf8').toString('base64url');
+}
+
+function decodeCustomPart(value) {
+    return Buffer.from(String(value), 'base64url').toString('utf8');
+}
+
+function getNationTowns(townsData, nation) {
+    return townsData
+        .filter((town) => town.nation === nation)
+        .sort((left, right) => String(left.town || '').localeCompare(String(right.town || '')));
+}
+
+function buildTownSelectRows(discord, nation, townsData) {
+    const { ActionRowBuilder, StringSelectMenuBuilder } = discord;
+    const nationTowns = getNationTowns(townsData, nation);
+    const encodedNation = encodeCustomPart(nation);
+
+    return chunkItems(nationTowns, 25).slice(0, MAX_SELECT_ROWS).map((chunk, index) =>
+        new ActionRowBuilder().addComponents(
+            new StringSelectMenuBuilder()
+                .setCustomId(`${TOWN_SELECT_CUSTOM_ID_PREFIX}:${encodedNation}:${index}`)
+                .setPlaceholder(index === 0 ? `Select a ${prettifyNationName(nation)} town` : `More towns (${index + 1})`)
+                .addOptions(
+                    chunk.map((town) => ({
+                        label: String(town.town || 'Unknown').slice(0, 100),
+                        value: String(town.town || '').slice(0, 100),
+                        description: `${formatDays(town.days_rounded)} | bank $${formatMoney(town.bank)} | upkeep $${formatMoney(town.upkeep)}`.slice(0, 100)
+                    }))
+                )
+        )
+    );
+}
+
+function buildNationReportPayload(discord, nation, townsData, state = readState()) {
+    return {
+        embeds: [buildNationEmbed(discord, nation, townsData, state)],
+        components: buildTownSelectRows(discord, nation, townsData)
+    };
+}
+
+function findTown(townsData, nation, townName) {
+    return townsData.find((town) => town.nation === nation && town.town === townName);
+}
+
+function getPendingBalance(town) {
+    return Number(town.bank || 0) - Number(town.upkeep || 0);
+}
+
+function buildTownDetailPayload(discord, nation, town, state = readState(), options = {}) {
+    const { ActionRowBuilder, ButtonBuilder, ButtonStyle, EmbedBuilder } = discord;
+    const encodedNation = encodeCustomPart(nation);
+    const encodedTown = encodeCustomPart(town.town);
+    const status = getTownStatus(state, nation, town.town);
+    const statusLabel = status === 'claim' ? 'Claimed' : status === 'fall' ? 'Falling' : 'Unmarked';
+
+    const embed = new EmbedBuilder()
+        .setTitle(`${town.town} Details`)
+        .setColor(status === 'fall' ? 0xe74c3c : status === 'claim' ? 0x2ecc71 : 0x3498db)
+        .setDescription([
+            `**Nation:** ${prettifyNationName(nation)}`,
+            `**Days:** ${formatDays(town.days_rounded)}`,
+            `**Bank:** $${formatMoney(town.bank)}`,
+            `**Upkeep:** $${formatMoney(town.upkeep)}`,
+            `**Pending balance:** $${formatMoney(getPendingBalance(town))}`,
+            `**Status:** ${statusLabel}`
+        ].join('\n'))
+        .setTimestamp();
+
+    const row = new ActionRowBuilder().addComponents(
+        new ButtonBuilder()
+            .setCustomId(`${TOWN_STATUS_CUSTOM_ID_PREFIX}:claim:${encodedNation}:${encodedTown}`)
+            .setLabel('Claim')
+            .setStyle(ButtonStyle.Success),
+        new ButtonBuilder()
+            .setCustomId(`${TOWN_STATUS_CUSTOM_ID_PREFIX}:fall:${encodedNation}:${encodedTown}`)
+            .setLabel('Fall')
+            .setStyle(ButtonStyle.Danger)
+    );
+
+    const payload = {
+        embeds: [embed],
+        components: [row]
+    };
+
+    if (options.ephemeral !== false) {
+        payload.ephemeral = true;
+    }
+
+    return payload;
 }
 
 function buildNationSelectRows(discord, townsData, watchedNations) {
@@ -404,11 +522,10 @@ async function configureReportsInChannel(interaction) {
     };
 
     for (const nation of watchedNations) {
-        const embed = buildNationEmbed(discord, nation, townsData);
         const existingRef = state.report_messages?.[nation]?.channel_id === interaction.channelId
             ? state.report_messages[nation]
             : null;
-        const sent = await upsertMessage(interaction.channel, existingRef, { embeds: [embed] });
+        const sent = await upsertMessage(interaction.channel, existingRef, buildNationReportPayload(discord, nation, townsData, state));
         updatedState.report_messages[nation] = {
             channel_id: interaction.channelId,
             message_id: sent.id
@@ -448,6 +565,71 @@ async function handleNationReport(interaction) {
         embeds: [embed],
         ephemeral: true
     });
+}
+
+async function handleTownSelect(interaction) {
+    const discord = getDiscordLib();
+    if (!discord) {
+        await interaction.reply({ content: 'discord.js is not installed on the host.', ephemeral: true });
+        return;
+    }
+
+    const [, encodedNation] = interaction.customId.split(':');
+    const nation = decodeCustomPart(encodedNation);
+    const townName = interaction.values[0];
+    const townsData = loadTownsData();
+    const town = findTown(townsData, nation, townName);
+
+    if (!town) {
+        await interaction.reply({ content: 'That town is no longer present in the latest town data.', ephemeral: true });
+        return;
+    }
+
+    await interaction.reply(buildTownDetailPayload(discord, nation, town));
+}
+
+async function refreshNationReportMessage(client, nation, townsData, state) {
+    const discord = getDiscordLib();
+    const ref = state.report_messages?.[nation];
+    if (!discord || !ref?.channel_id || !ref?.message_id) {
+        return;
+    }
+
+    const channel = await fetchTextChannel(client, ref.channel_id);
+    if (!channel) {
+        return;
+    }
+
+    const message = await channel.messages.fetch(ref.message_id);
+    await message.edit(buildNationReportPayload(discord, nation, townsData, state));
+}
+
+async function handleTownStatusButton(interaction) {
+    const discord = getDiscordLib();
+    if (!discord) {
+        await interaction.reply({ content: 'discord.js is not installed on the host.', ephemeral: true });
+        return;
+    }
+
+    const [, status, encodedNation, encodedTown] = interaction.customId.split(':');
+    const nation = decodeCustomPart(encodedNation);
+    const townName = decodeCustomPart(encodedTown);
+    const townsData = loadTownsData();
+    const town = findTown(townsData, nation, townName);
+
+    if (!town) {
+        await interaction.reply({ content: 'That town is no longer present in the latest town data.', ephemeral: true });
+        return;
+    }
+
+    const state = readState();
+    state.town_statuses = state.town_statuses || {};
+    state.town_statuses[nation] = state.town_statuses[nation] || {};
+    state.town_statuses[nation][townName] = status === 'fall' ? 'fall' : 'claim';
+    saveState(state);
+
+    await refreshNationReportMessage(interaction.client, nation, townsData, state);
+    await interaction.update(buildTownDetailPayload(discord, nation, town, state, { ephemeral: false }));
 }
 
 async function createTransientClient(config) {
@@ -514,8 +696,7 @@ async function syncBotMessages(townsData) {
                 continue;
             }
 
-            const embed = buildNationEmbed(discord, nation, townsData);
-            const sent = await upsertMessage(channel, state.report_messages?.[nation], { embeds: [embed] });
+            const sent = await upsertMessage(channel, state.report_messages?.[nation], buildNationReportPayload(discord, nation, townsData, state));
 
             if (!state.report_messages[nation] || state.report_messages[nation].message_id !== sent.id || state.report_messages[nation].channel_id !== channel.id) {
                 state.report_messages[nation] = {
@@ -641,6 +822,16 @@ async function startBot() {
 
             if (interaction.isStringSelectMenu() && interaction.customId.startsWith(REPORT_CUSTOM_ID_PREFIX)) {
                 await handleNationReport(interaction);
+                return;
+            }
+
+            if (interaction.isStringSelectMenu() && interaction.customId.startsWith(TOWN_SELECT_CUSTOM_ID_PREFIX)) {
+                await handleTownSelect(interaction);
+                return;
+            }
+
+            if (interaction.isButton() && interaction.customId.startsWith(TOWN_STATUS_CUSTOM_ID_PREFIX)) {
+                await handleTownStatusButton(interaction);
             }
         } catch (error) {
             console.error(`[Discord] Interaction failed: ${error.message}`);
