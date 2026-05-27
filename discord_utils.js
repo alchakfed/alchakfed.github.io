@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
-const { loadConfig } = require('./config');
+const { spawn } = require('child_process');
+const { loadConfig, saveConfig } = require('./config');
 
 const TOWNS_PATH = path.join(__dirname, 'towns.json');
 const STATE_PATH = path.join(__dirname, 'discord_state.json');
@@ -8,12 +9,15 @@ const REPORT_CUSTOM_ID_PREFIX = 'nation_report_select';
 const TOWN_SELECT_CUSTOM_ID_PREFIX = 'town_select';
 const TOWN_STATUS_CUSTOM_ID_PREFIX = 'town_status';
 const TOWN_TOKEN_CUSTOM_ID_PREFIX = 'tt';
+const RESCRAPE_CUSTOM_ID = 'rescrape_towns';
 const MAX_FIELD_LENGTH = 1024;
 const MAX_SELECT_ROWS = 5;
+const TOWN_STATUS_TTL_MS = 2 * 24 * 60 * 60 * 1000;
 
 let discordLib = null;
 let discordLoadError = null;
 let botClient = null;
+let discordScrapeJob = null;
 
 function getDiscordLib() {
     if (discordLib) {
@@ -84,7 +88,7 @@ function readState() {
 
     try {
         const state = JSON.parse(fs.readFileSync(STATE_PATH, 'utf8'));
-        return {
+        const normalized = {
             report_messages: state.report_messages && typeof state.report_messages === 'object'
                 ? state.report_messages
                 : {},
@@ -98,6 +102,11 @@ function readState() {
                 ? state.town_tokens
                 : {}
         };
+        const changed = normalizeTownStatuses(normalized);
+        if (changed) {
+            saveState(normalized);
+        }
+        return normalized;
     } catch (error) {
         console.warn(`[Discord] Failed to parse discord_state.json: ${error.message}`);
         return {
@@ -111,6 +120,51 @@ function readState() {
 
 function saveState(state) {
     fs.writeFileSync(STATE_PATH, `${JSON.stringify(state, null, 2)}\n`);
+}
+
+function normalizeTownStatuses(state, now = Date.now()) {
+    let changed = false;
+    state.town_statuses = state.town_statuses && typeof state.town_statuses === 'object'
+        ? state.town_statuses
+        : {};
+
+    for (const [nation, towns] of Object.entries(state.town_statuses)) {
+        if (!towns || typeof towns !== 'object' || Array.isArray(towns)) {
+            delete state.town_statuses[nation];
+            changed = true;
+            continue;
+        }
+
+        for (const [townName, entry] of Object.entries(towns)) {
+            if (entry === 'claim' || entry === 'fall') {
+                towns[townName] = {
+                    status: entry,
+                    marked_at: new Date(now).toISOString()
+                };
+                changed = true;
+                continue;
+            }
+
+            if (!entry || typeof entry !== 'object' || !['claim', 'fall'].includes(entry.status)) {
+                delete towns[townName];
+                changed = true;
+                continue;
+            }
+
+            const markedAt = Date.parse(entry.marked_at || '');
+            if (!Number.isFinite(markedAt) || now - markedAt >= TOWN_STATUS_TTL_MS) {
+                delete towns[townName];
+                changed = true;
+            }
+        }
+
+        if (Object.keys(towns).length === 0) {
+            delete state.town_statuses[nation];
+            changed = true;
+        }
+    }
+
+    return changed;
 }
 
 function formatMoney(amount) {
@@ -271,7 +325,16 @@ function getNationStats(townsData, nation) {
 }
 
 function getTownStatus(state, nation, townName) {
-    return state.town_statuses?.[nation]?.[townName] || null;
+    const entry = state.town_statuses?.[nation]?.[townName] || null;
+    if (!entry) {
+        return null;
+    }
+
+    if (typeof entry === 'string') {
+        return entry;
+    }
+
+    return entry.status || null;
 }
 
 function getTownStatusMarker(status) {
@@ -281,14 +344,6 @@ function getTownStatusMarker(status) {
 
     if (status === 'fall') {
         return '\u274c';
-    }
-
-    if (status === 'claim') {
-        return '✅';
-    }
-
-    if (status === 'fall') {
-        return '❌';
     }
 
     return null;
@@ -436,7 +491,11 @@ function buildTownDetailPayload(discord, nation, town, state = readState(), opti
         new ButtonBuilder()
             .setCustomId(`${TOWN_STATUS_CUSTOM_ID_PREFIX}:fall:${token}`)
             .setLabel('Fall')
-            .setStyle(ButtonStyle.Danger)
+            .setStyle(ButtonStyle.Danger),
+        new ButtonBuilder()
+            .setCustomId(`${TOWN_STATUS_CUSTOM_ID_PREFIX}:clear:${token}`)
+            .setLabel('Unclaim')
+            .setStyle(ButtonStyle.Secondary)
     );
 
     const payload = {
@@ -451,12 +510,12 @@ function buildTownDetailPayload(discord, nation, town, state = readState(), opti
     return payload;
 }
 
-function buildNationSelectRows(discord, townsData, watchedNations) {
+function buildNationSelectRows(discord, townsData, watchedNations, maxRows = MAX_SELECT_ROWS) {
     const { ActionRowBuilder, StringSelectMenuBuilder } = discord;
     const watched = new Set(watchedNations);
     const otherNations = getAllNationNames(townsData).filter((nation) => !watched.has(nation));
 
-    return chunkItems(otherNations, 25).slice(0, 5).map((chunk, index) =>
+    return chunkItems(otherNations, 25).slice(0, maxRows).map((chunk, index) =>
         new ActionRowBuilder().addComponents(
             new StringSelectMenuBuilder()
                 .setCustomId(`${REPORT_CUSTOM_ID_PREFIX}:${index}`)
@@ -473,13 +532,20 @@ function buildNationSelectRows(discord, townsData, watchedNations) {
 }
 
 function buildNationMenuPayload(discord, townsData, watchedNations) {
-    const rows = buildNationSelectRows(discord, townsData, watchedNations);
+    const { ActionRowBuilder, ButtonBuilder, ButtonStyle } = discord;
+    const rows = buildNationSelectRows(discord, townsData, watchedNations, MAX_SELECT_ROWS - 1);
+    const buttonRow = new ActionRowBuilder().addComponents(
+        new ButtonBuilder()
+            .setCustomId(RESCRAPE_CUSTOM_ID)
+            .setLabel('Rescrape towns')
+            .setStyle(ButtonStyle.Primary)
+    );
 
     return {
         content: rows.length > 0
             ? 'Use the dropdown menus below to view the latest report for any non-preset nation.'
             : 'All available nations are already covered by the preset watched reports.',
-        components: rows
+        components: [...rows, buttonRow]
     };
 }
 
@@ -663,7 +729,17 @@ async function handleTownStatusButton(interaction) {
     const state = readState();
     state.town_statuses = state.town_statuses || {};
     state.town_statuses[nation] = state.town_statuses[nation] || {};
-    state.town_statuses[nation][townName] = status === 'fall' ? 'fall' : 'claim';
+    if (status === 'clear') {
+        delete state.town_statuses[nation][townName];
+        if (Object.keys(state.town_statuses[nation]).length === 0) {
+            delete state.town_statuses[nation];
+        }
+    } else {
+        state.town_statuses[nation][townName] = {
+            status: status === 'fall' ? 'fall' : 'claim',
+            marked_at: new Date().toISOString()
+        };
+    }
     saveState(state);
 
     try {
@@ -673,6 +749,56 @@ async function handleTownStatusButton(interaction) {
     }
 
     await interaction.update(buildTownDetailPayload(discord, nation, town, state, { ephemeral: false }));
+}
+
+function runScraperProcess() {
+    return new Promise((resolve, reject) => {
+        const child = spawn('node', ['scraper.js'], {
+            cwd: __dirname,
+            shell: true
+        });
+
+        let stderrData = '';
+
+        child.stderr.on('data', (data) => {
+            stderrData += data.toString();
+        });
+
+        child.on('error', reject);
+        child.on('close', (code) => {
+            if (code === 0) {
+                resolve();
+                return;
+            }
+
+            reject(new Error(stderrData || `scraper.js exited with code ${code}`));
+        });
+    });
+}
+
+async function handleRescrapeButton(interaction) {
+    if (discordScrapeJob) {
+        await interaction.reply({ content: 'A town scrape is already running. Try again in a minute.', ephemeral: true });
+        return;
+    }
+
+    await interaction.deferReply({ ephemeral: true });
+
+    discordScrapeJob = runScraperProcess();
+
+    try {
+        await discordScrapeJob;
+        const townsData = loadTownsData();
+        const config = getConfig();
+        config.last_run = new Date().toISOString().split('T')[0];
+        saveConfig(config);
+        await syncBotMessages(townsData);
+        await interaction.editReply({ content: `Rescraped ${townsData.length} towns and refreshed the Discord reports.` });
+    } catch (error) {
+        await interaction.editReply({ content: `Rescrape failed: ${error.message || error}` });
+    } finally {
+        discordScrapeJob = null;
+    }
 }
 
 async function createTransientClient(config) {
@@ -875,6 +1001,11 @@ async function startBot() {
 
             if (interaction.isButton() && interaction.customId.startsWith(TOWN_STATUS_CUSTOM_ID_PREFIX)) {
                 await handleTownStatusButton(interaction);
+                return;
+            }
+
+            if (interaction.isButton() && interaction.customId === RESCRAPE_CUSTOM_ID) {
+                await handleRescrapeButton(interaction);
             }
         } catch (error) {
             console.error(`[Discord] Interaction failed (${interaction.type}:${interaction.customId || interaction.commandName || 'unknown'}): ${error.stack || error.message}`);
