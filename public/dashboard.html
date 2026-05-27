@@ -24,7 +24,8 @@
 
         pre { background: #333; color: #eee; padding: 10px; overflow: auto; height: 300px; border-radius: 4px; font-size: 13px; }
         
-        input[type="text"], input[type="password"], select { width: 100%; padding: 8px; margin: 5px 0; box-sizing: border-box; border: 1px solid #ddd; border-radius: 4px; }
+        input[type="text"], input[type="password"], select, textarea { width: 100%; padding: 8px; margin: 5px 0; box-sizing: border-box; border: 1px solid #ddd; border-radius: 4px; }
+        textarea { min-height: 150px; font-family: Consolas, Monaco, monospace; }
         label { font-weight: bold; display: block; margin-top: 10px; }
         .row { display: flex; justify-content: space-between; align-items: start; }
         .col { flex: 1; padding-right: 20px; }
@@ -97,6 +98,9 @@
         <h2>Configuration</h2>
         <label>Discord Bot Token</label>
         <input type="password" id="botToken" placeholder="Bot Token">
+
+        <label>Discord Servers JSON</label>
+        <textarea id="discordServers" placeholder='[{"id":"primary","guild_id":"...","upkeep_channel_id":"...","default_watched_nations":["Alchak_Federation"]}]'></textarea>
         
         <label>Webhook Targets</label>
         <div id="webhookList"></div>
@@ -182,6 +186,7 @@
             const data = await res.json();
             
             document.getElementById('botToken').value = data.discord_bot_token || "";
+            document.getElementById('discordServers').value = JSON.stringify(data.discord_servers || [], null, 2);
             renderWebhookEntries(normalizeWebhooks(data.webhooks || []));
             document.getElementById('autoScrapeToggle').checked = data.auto_scrape !== false;
         }
@@ -190,9 +195,21 @@
             const token = document.getElementById('botToken').value.trim();
             const webhooks = collectWebhookEntries();
             const autoScrape = document.getElementById('autoScrapeToggle').checked;
+            let discordServers = [];
+
+            try {
+                discordServers = JSON.parse(document.getElementById('discordServers').value || '[]');
+                if (!Array.isArray(discordServers)) {
+                    throw new Error('Discord servers must be a JSON array.');
+                }
+            } catch (error) {
+                alert('Discord Servers JSON is invalid: ' + error.message);
+                return;
+            }
 
             const config = {
                 discord_bot_token: token,
+                discord_servers: discordServers,
                 webhooks: webhooks,
                 auto_scrape: autoScrape
             };

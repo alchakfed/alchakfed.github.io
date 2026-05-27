@@ -1,6 +1,20 @@
 {
   "discord_bot_token": "",
   "discord_guild_id": "",
+  "discord_servers": [
+    {
+      "id": "primary",
+      "guild_id": "",
+      "upkeep_channel_id": "",
+      "default_watched_nations": [
+        "Alchak_Federation"
+      ],
+      "nation_role_ids": {
+        "Alchak_Federation": ""
+      },
+      "ping_role_id": ""
+    }
+  ],
   "sync_shared_secret": "",
   "upkeep_channel_id": "",
   "default_watched_nations": [

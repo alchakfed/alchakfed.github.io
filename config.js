@@ -10,6 +10,7 @@ const DEFAULT_CONFIG = {
   webhooks: [],
   discord_bot_token: '',
   discord_guild_id: '',
+  discord_servers: [],
   sync_shared_secret: '',
   upkeep_channel_id: '',
   default_watched_nations: [],
