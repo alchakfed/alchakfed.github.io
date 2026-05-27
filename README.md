@@ -56,6 +56,33 @@ How it works:
 
 Each preset nation report includes a town dropdown for that nation. Selecting a town sends a private detail message with bank, upkeep, pending balance, and `Claim` / `Fall` buttons. `Claim` marks the town with a checkmark in the public report list, and `Fall` marks it with an X.
 
+To publish the same bot updates into multiple Discord servers or channels, set `discord_servers` in `config.json` or the dashboard. Each entry can choose its own guild, report channel, watched nations, and role map:
+
+```json
+{
+  "discord_servers": [
+    {
+      "id": "primary",
+      "guild_id": "replace-with-guild-id",
+      "upkeep_channel_id": "replace-with-channel-id",
+      "default_watched_nations": ["Alchak_Federation"],
+      "nation_role_ids": {
+        "Alchak_Federation": "replace-with-role-id"
+      },
+      "ping_role_id": ""
+    },
+    {
+      "id": "ally-server",
+      "guild_id": "replace-with-second-guild-id",
+      "upkeep_channel_id": "replace-with-second-channel-id",
+      "default_watched_nations": ["Polaris", "West_Coast_Republic"]
+    }
+  ]
+}
+```
+
+The older single-server keys like `discord_guild_id` and `upkeep_channel_id` still work when `discord_servers` is empty.
+
 ## GitHub Actions
 
 The scheduled workflow lives in `.github/workflows/scrape.yml`.
@@ -74,6 +101,17 @@ Example secret value:
 
 ```json
 {
+  "discord_servers": [
+    {
+      "id": "primary",
+      "guild_id": "replace-with-guild-id",
+      "upkeep_channel_id": "replace-with-channel-id",
+      "default_watched_nations": ["Alchak_Federation"],
+      "nation_role_ids": {
+        "Alchak_Federation": "replace-with-role-id"
+      }
+    }
+  ],
   "upkeep_channel_id": "replace-with-channel-id",
   "default_watched_nations": ["Alchak_Federation"],
   "nation_role_ids": {

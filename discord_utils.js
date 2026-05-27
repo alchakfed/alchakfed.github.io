@@ -81,6 +81,8 @@ function readState() {
         return {
             report_messages: {},
             nation_menu_message: null,
+            server_report_messages: {},
+            server_nation_menu_messages: {},
             town_statuses: {},
             town_tokens: {}
         };
@@ -95,6 +97,12 @@ function readState() {
             nation_menu_message: state.nation_menu_message && typeof state.nation_menu_message === 'object'
                 ? state.nation_menu_message
                 : null,
+            server_report_messages: state.server_report_messages && typeof state.server_report_messages === 'object'
+                ? state.server_report_messages
+                : {},
+            server_nation_menu_messages: state.server_nation_menu_messages && typeof state.server_nation_menu_messages === 'object'
+                ? state.server_nation_menu_messages
+                : {},
             town_statuses: state.town_statuses && typeof state.town_statuses === 'object'
                 ? state.town_statuses
                 : {},
@@ -112,6 +120,8 @@ function readState() {
         return {
             report_messages: {},
             nation_menu_message: null,
+            server_report_messages: {},
+            server_nation_menu_messages: {},
             town_statuses: {},
             town_tokens: {}
         };
@@ -267,17 +277,119 @@ function getAllNationNames(townsData) {
     return [...new Set(townsData.map((town) => town.nation).filter(Boolean))].sort((left, right) => left.localeCompare(right));
 }
 
-function getWatchedNations(config, townsData) {
-    const explicit = Array.isArray(config.default_watched_nations)
-        ? config.default_watched_nations.map((nation) => String(nation).trim()).filter(Boolean)
+function normalizeDiscordServers(config) {
+    const configuredServers = Array.isArray(config.discord_servers)
+        ? config.discord_servers
+        : [];
+
+    const servers = configuredServers
+        .map((entry, index) => {
+            if (!entry || typeof entry !== 'object') {
+                return null;
+            }
+
+            const guildId = String(entry.guild_id || entry.discord_guild_id || '').trim();
+            const channelId = String(entry.upkeep_channel_id || entry.channel_id || '').trim();
+            if (!guildId && !channelId) {
+                return null;
+            }
+
+            return {
+                key: String(entry.id || guildId || channelId || `server_${index}`).trim(),
+                guild_id: guildId,
+                upkeep_channel_id: channelId,
+                default_watched_nations: Array.isArray(entry.default_watched_nations)
+                    ? entry.default_watched_nations
+                    : config.default_watched_nations,
+                nation_role_ids: entry.nation_role_ids && typeof entry.nation_role_ids === 'object'
+                    ? entry.nation_role_ids
+                    : config.nation_role_ids,
+                ping_role_id: entry.ping_role_id || config.ping_role_id || ''
+            };
+        })
+        .filter(Boolean);
+
+    if (servers.length > 0) {
+        return servers;
+    }
+
+    return [{
+        key: 'default',
+        guild_id: String(config.discord_guild_id || '').trim(),
+        upkeep_channel_id: String(config.upkeep_channel_id || '').trim(),
+        default_watched_nations: config.default_watched_nations,
+        nation_role_ids: config.nation_role_ids,
+        ping_role_id: config.ping_role_id || ''
+    }];
+}
+
+function getServerStateKey(serverConfig = {}) {
+    return String(serverConfig.key || serverConfig.guild_id || serverConfig.upkeep_channel_id || 'default');
+}
+
+function getServerForInteraction(config, interaction) {
+    const servers = normalizeDiscordServers(config);
+    return servers.find((server) => server.guild_id && server.guild_id === interaction.guildId)
+        || servers.find((server) => server.upkeep_channel_id && server.upkeep_channel_id === interaction.channelId)
+        || {
+            key: interaction.guildId || interaction.channelId || 'default',
+            guild_id: interaction.guildId || '',
+            upkeep_channel_id: interaction.channelId || '',
+            default_watched_nations: config.default_watched_nations,
+            nation_role_ids: config.nation_role_ids,
+            ping_role_id: config.ping_role_id || ''
+        };
+}
+
+function getScopedReportMessages(state, serverConfig) {
+    const key = getServerStateKey(serverConfig);
+    if (key === 'default') {
+        return state.report_messages || {};
+    }
+
+    state.server_report_messages = state.server_report_messages || {};
+    state.server_report_messages[key] = state.server_report_messages[key] || {};
+    return state.server_report_messages[key];
+}
+
+function setScopedReportMessage(state, serverConfig, nation, ref) {
+    const reports = getScopedReportMessages(state, serverConfig);
+    reports[nation] = ref;
+}
+
+function getScopedMenuMessage(state, serverConfig) {
+    const key = getServerStateKey(serverConfig);
+    if (key === 'default') {
+        return state.nation_menu_message || null;
+    }
+
+    state.server_nation_menu_messages = state.server_nation_menu_messages || {};
+    return state.server_nation_menu_messages[key] || null;
+}
+
+function setScopedMenuMessage(state, serverConfig, ref) {
+    const key = getServerStateKey(serverConfig);
+    if (key === 'default') {
+        state.nation_menu_message = ref;
+        return;
+    }
+
+    state.server_nation_menu_messages = state.server_nation_menu_messages || {};
+    state.server_nation_menu_messages[key] = ref;
+}
+
+function getWatchedNations(config, townsData, serverConfig = null) {
+    const source = serverConfig || config;
+    const explicit = Array.isArray(source.default_watched_nations)
+        ? source.default_watched_nations.map((nation) => String(nation).trim()).filter(Boolean)
         : [];
 
     if (explicit.length > 0) {
         return [...new Set(explicit)];
     }
 
-    const configuredRoles = config.nation_role_ids && typeof config.nation_role_ids === 'object'
-        ? Object.keys(config.nation_role_ids).map((nation) => String(nation).trim()).filter(Boolean)
+    const configuredRoles = source.nation_role_ids && typeof source.nation_role_ids === 'object'
+        ? Object.keys(source.nation_role_ids).map((nation) => String(nation).trim()).filter(Boolean)
         : [];
 
     if (configuredRoles.length > 0) {
@@ -558,10 +670,13 @@ async function registerCommands(client, config) {
     ];
 
     try {
-        if (config.discord_guild_id) {
-            const guild = await client.guilds.fetch(config.discord_guild_id);
-            await guild.commands.set(commands);
-            console.log(`[Discord] Registered /configure for guild ${config.discord_guild_id}.`);
+        const guildIds = [...new Set(normalizeDiscordServers(config).map((server) => server.guild_id).filter(Boolean))];
+        if (guildIds.length > 0) {
+            for (const guildId of guildIds) {
+                const guild = await client.guilds.fetch(guildId);
+                await guild.commands.set(commands);
+                console.log(`[Discord] Registered /configure for guild ${guildId}.`);
+            }
             return;
         }
 
@@ -599,7 +714,8 @@ async function configureReportsInChannel(interaction) {
     const discord = getDiscordLib();
     const config = getConfig();
     const townsData = loadTownsData();
-    const watchedNations = getWatchedNations(config, townsData);
+    const serverConfig = getServerForInteraction(config, interaction);
+    const watchedNations = getWatchedNations(config, townsData, serverConfig);
 
     if (!interaction.channel || !interaction.channel.isTextBased()) {
         await interaction.reply({ content: 'This command needs to be used in a text channel.', ephemeral: true });
@@ -614,29 +730,33 @@ async function configureReportsInChannel(interaction) {
     const state = readState();
     const updatedState = {
         ...state,
-        report_messages: { ...state.report_messages }
+        report_messages: { ...state.report_messages },
+        server_report_messages: { ...state.server_report_messages },
+        server_nation_menu_messages: { ...state.server_nation_menu_messages }
     };
+    const scopedReports = getScopedReportMessages(state, serverConfig);
 
     for (const nation of watchedNations) {
-        const existingRef = state.report_messages?.[nation]?.channel_id === interaction.channelId
-            ? state.report_messages[nation]
+        const existingRef = scopedReports?.[nation]?.channel_id === interaction.channelId
+            ? scopedReports[nation]
             : null;
         const sent = await upsertMessage(interaction.channel, existingRef, buildNationReportPayload(discord, nation, townsData, state));
-        updatedState.report_messages[nation] = {
+        setScopedReportMessage(updatedState, serverConfig, nation, {
             channel_id: interaction.channelId,
             message_id: sent.id
-        };
+        });
     }
 
     const menuPayload = buildNationMenuPayload(discord, townsData, watchedNations);
-    const existingMenu = state.nation_menu_message?.channel_id === interaction.channelId
-        ? state.nation_menu_message
+    const currentMenu = getScopedMenuMessage(state, serverConfig);
+    const existingMenu = currentMenu?.channel_id === interaction.channelId
+        ? currentMenu
         : null;
     const menuMessage = await upsertMessage(interaction.channel, existingMenu, menuPayload);
-    updatedState.nation_menu_message = {
+    setScopedMenuMessage(updatedState, serverConfig, {
         channel_id: interaction.channelId,
         message_id: menuMessage.id
-    };
+    });
 
     saveState(updatedState);
 
@@ -701,6 +821,73 @@ async function refreshNationReportMessage(client, nation, townsData, state) {
     return true;
 }
 
+async function refreshNationReportMessages(client, nation, townsData, state) {
+    const discord = getDiscordLib();
+    if (!discord) {
+        return 0;
+    }
+
+    const refs = [];
+    if (state.report_messages?.[nation]) {
+        refs.push(state.report_messages[nation]);
+    }
+
+    for (const reports of Object.values(state.server_report_messages || {})) {
+        if (reports?.[nation]) {
+            refs.push(reports[nation]);
+        }
+    }
+
+    let refreshed = 0;
+    for (const ref of refs) {
+        if (!ref?.channel_id || !ref?.message_id) {
+            continue;
+        }
+
+        const channel = await fetchTextChannel(client, ref.channel_id);
+        if (!channel) {
+            continue;
+        }
+
+        const message = await channel.messages.fetch(ref.message_id);
+        await message.edit(buildNationReportPayload(discord, nation, townsData, state));
+        refreshed += 1;
+    }
+
+    return refreshed;
+}
+
+async function refreshAllReportMessages(client, townsData, state) {
+    const discord = getDiscordLib();
+    if (!discord) {
+        return 0;
+    }
+
+    const refs = [
+        ...Object.entries(state.report_messages || {}).map(([nation, ref]) => ({ nation, ref })),
+        ...Object.values(state.server_report_messages || {})
+            .flatMap((reports) => Object.entries(reports || {}).map(([nation, ref]) => ({ nation, ref })))
+    ];
+
+    let refreshed = 0;
+    for (const { nation, ref } of refs) {
+        if (!ref?.channel_id || !ref?.message_id) {
+            continue;
+        }
+
+        const channel = await fetchTextChannel(client, ref.channel_id);
+        if (!channel) {
+            continue;
+        }
+
+        const message = await channel.messages.fetch(ref.message_id);
+        await message.edit(buildNationReportPayload(discord, nation, townsData, state));
+        refreshed += 1;
+    }
+
+    return refreshed;
+}
+
 async function handleTownStatusButton(interaction) {
     const discord = getDiscordLib();
     if (!discord) {
@@ -743,7 +930,7 @@ async function handleTownStatusButton(interaction) {
     saveState(state);
 
     try {
-        await refreshNationReportMessage(interaction.client, nation, townsData, state);
+        await refreshNationReportMessages(interaction.client, nation, townsData, state);
     } catch (error) {
         console.warn(`[Discord] Failed to refresh report for ${nation}/${townName}: ${error.message}`);
     }
@@ -850,44 +1037,51 @@ async function syncBotMessages(townsData) {
     }
 
     const state = readState();
-    const watchedNations = getWatchedNations(config, townsData);
+    const serverConfigs = normalizeDiscordServers(config);
     const delivery = await getDeliveryClient(config);
     const client = delivery.client;
     let stateChanged = false;
 
     try {
-        for (const nation of watchedNations) {
-            const channelId = state.report_messages?.[nation]?.channel_id || config.upkeep_channel_id;
-            const channel = await fetchTextChannel(client, channelId);
+        for (const serverConfig of serverConfigs) {
+            const watchedNations = getWatchedNations(config, townsData, serverConfig);
+            const scopedReports = getScopedReportMessages(state, serverConfig);
+            const serverKey = getServerStateKey(serverConfig);
 
-            if (!channel) {
-                console.warn(`[Discord] No text channel available for ${nation}.`);
-                continue;
+            for (const nation of watchedNations) {
+                const channelId = scopedReports?.[nation]?.channel_id || serverConfig.upkeep_channel_id;
+                const channel = await fetchTextChannel(client, channelId);
+
+                if (!channel) {
+                    console.warn(`[Discord] No text channel available for ${nation} on ${serverKey}.`);
+                    continue;
+                }
+
+                const sent = await upsertMessage(channel, scopedReports?.[nation], buildNationReportPayload(discord, nation, townsData, state));
+
+                if (!scopedReports[nation] || scopedReports[nation].message_id !== sent.id || scopedReports[nation].channel_id !== channel.id) {
+                    setScopedReportMessage(state, serverConfig, nation, {
+                        channel_id: channel.id,
+                        message_id: sent.id
+                    });
+                    stateChanged = true;
+                }
             }
 
-            const sent = await upsertMessage(channel, state.report_messages?.[nation], buildNationReportPayload(discord, nation, townsData, state));
+            const currentMenu = getScopedMenuMessage(state, serverConfig);
+            const menuChannelId = currentMenu?.channel_id || serverConfig.upkeep_channel_id;
+            const menuChannel = await fetchTextChannel(client, menuChannelId);
+            if (menuChannel) {
+                const payload = buildNationMenuPayload(discord, townsData, watchedNations);
+                const sent = await upsertMessage(menuChannel, currentMenu, payload);
 
-            if (!state.report_messages[nation] || state.report_messages[nation].message_id !== sent.id || state.report_messages[nation].channel_id !== channel.id) {
-                state.report_messages[nation] = {
-                    channel_id: channel.id,
-                    message_id: sent.id
-                };
-                stateChanged = true;
-            }
-        }
-
-        const menuChannelId = state.nation_menu_message?.channel_id || config.upkeep_channel_id;
-        const menuChannel = await fetchTextChannel(client, menuChannelId);
-        if (menuChannel) {
-            const payload = buildNationMenuPayload(discord, townsData, watchedNations);
-            const sent = await upsertMessage(menuChannel, state.nation_menu_message, payload);
-
-            if (!state.nation_menu_message || state.nation_menu_message.message_id !== sent.id || state.nation_menu_message.channel_id !== sent.channelId) {
-                state.nation_menu_message = {
-                    channel_id: sent.channelId,
-                    message_id: sent.id
-                };
-                stateChanged = true;
+                if (!currentMenu || currentMenu.message_id !== sent.id || currentMenu.channel_id !== sent.channelId) {
+                    setScopedMenuMessage(state, serverConfig, {
+                        channel_id: sent.channelId,
+                        message_id: sent.id
+                    });
+                    stateChanged = true;
+                }
             }
         }
     } finally {
