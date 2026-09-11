@@ -1,5 +1,5 @@
 {
-  "scraped_at": "2026-09-10T21:45:05.533Z",
+  "scraped_at": "2026-09-11T21:50:24.346Z",
   "source": "https://map.ccnetmc.com/nationsmap",
   "towns": [
     {
@@ -3846,6 +3846,13 @@
       "days_rounded": null
     },
     {
+      "town": "Siegetest",
+      "nation": "Duckfolded",
+      "bank": 35000,
+      "upkeep": 0,
+      "days_rounded": null
+    },
+    {
       "town": "Silverstone",
       "nation": "Asian_Empire",
       "bank": 66133.73,
@@ -3903,8 +3910,8 @@
     },
     {
       "town": "Snowpeak",
-      "nation": "Imperial_Federation",
-      "bank": 704.45,
+      "nation": "Duckfold",
+      "bank": 35704.45,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -4227,6 +4234,13 @@
       "town": "Tenkōkyō",
       "nation": "Eastern_Syndicate",
       "bank": 120853.08,
+      "upkeep": 0,
+      "days_rounded": null
+    },
+    {
+      "town": "Testfold",
+      "nation": "TestfoldNation",
+      "bank": 39658,
       "upkeep": 0,
       "days_rounded": null
     },
