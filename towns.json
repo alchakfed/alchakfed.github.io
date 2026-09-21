@@ -1,5 +1,5 @@
 {
-  "scraped_at": "2026-09-20T21:44:57.521Z",
+  "scraped_at": "2026-09-21T22:43:30.926Z",
   "source": "https://map.ccnetmc.com/nationsmap",
   "towns": [
     {
@@ -3903,8 +3903,8 @@
     },
     {
       "town": "Snowpeak",
-      "nation": "Duckfold",
-      "bank": 0.71,
+      "nation": null,
+      "bank": 600.18,
       "upkeep": 0,
       "days_rounded": null
     },
