@@ -1,5 +1,5 @@
 {
-  "scraped_at": "2026-09-28T23:53:09.438Z",
+  "scraped_at": "2026-09-29T23:06:01.907Z",
   "source": "https://map.ccnetmc.com/nationsmap",
   "towns": [
     {
@@ -194,7 +194,7 @@
     {
       "town": "Antalya",
       "nation": "The_Dominion_Of_Rovaryn",
-      "bank": 88155,
+      "bank": 89858,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -285,7 +285,7 @@
     {
       "town": "Astrelo",
       "nation": "Landinian_Federation",
-      "bank": 15409,
+      "bank": 19409,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -480,7 +480,7 @@
     },
     {
       "town": "Bonebrook",
-      "nation": "Imperial_North",
+      "nation": "Void_Empire",
       "bank": 10043.55,
       "upkeep": 0,
       "days_rounded": null
@@ -642,7 +642,7 @@
     {
       "town": "Cape_Town",
       "nation": null,
-      "bank": 87,
+      "bank": 42,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -985,7 +985,7 @@
     {
       "town": "Denpa_Tower",
       "nation": "Kingdom_Of_Ethiopia",
-      "bank": 146895,
+      "bank": 146703,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -1167,14 +1167,14 @@
     {
       "town": "Elephantia",
       "nation": "Gran_Colombia",
-      "bank": 3743.77,
+      "bank": 3998.07,
       "upkeep": 0,
       "days_rounded": null
     },
     {
       "town": "Elysium",
       "nation": "Eastern_Syndicate",
-      "bank": 8805.45,
+      "bank": 8809.95,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -1251,7 +1251,7 @@
     {
       "town": "Filóti",
       "nation": null,
-      "bank": 37,
+      "bank": 1037,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -1804,7 +1804,7 @@
     {
       "town": "Jazeera",
       "nation": "Kingdom_of_Jazeera",
-      "bank": 10831.53,
+      "bank": 15831.53,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -1950,8 +1950,8 @@
     },
     {
       "town": "Kelapa",
-      "nation": null,
-      "bank": 39735,
+      "nation": "Eastern_Syndicate",
+      "bank": 39717,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -2147,7 +2147,7 @@
     {
       "town": "Lhasa",
       "nation": "Eastern_Syndicate",
-      "bank": 14272.04,
+      "bank": 14641.04,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -2197,6 +2197,13 @@
       "town": "Livland_Dio",
       "nation": "Imperium_Romanum",
       "bank": 9891.25,
+      "upkeep": 0,
+      "days_rounded": null
+    },
+    {
+      "town": "Llamaland",
+      "nation": "Void_Empire",
+      "bank": 2,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -2973,7 +2980,7 @@
     {
       "town": "Ordanbek",
       "nation": "The_Great_Lotus_Empire",
-      "bank": 57906.79,
+      "bank": 57948.79,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -3099,7 +3106,7 @@
     {
       "town": "Pemba",
       "nation": "East_African_Federation",
-      "bank": 5359.48,
+      "bank": 7094.48,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -3491,7 +3498,7 @@
     {
       "town": "Puerto_Lando",
       "nation": "Landinian_Federation",
-      "bank": 123380.45,
+      "bank": 123420.45,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -3701,7 +3708,7 @@
     {
       "town": "Salmon_Town",
       "nation": "West_Coast_Republic",
-      "bank": 752,
+      "bank": 500,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -3778,7 +3785,7 @@
     {
       "town": "Sawu",
       "nation": "Asian_Empire",
-      "bank": 18,
+      "bank": 90,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -3953,7 +3960,7 @@
     {
       "town": "Snowpeak",
       "nation": null,
-      "bank": 604.11,
+      "bank": 654.11,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -4162,7 +4169,7 @@
     },
     {
       "town": "Syndicate_Storm",
-      "nation": "Eastern_Syndicate",
+      "nation": null,
       "bank": 1144.92,
       "upkeep": 0,
       "days_rounded": null
@@ -4205,7 +4212,7 @@
     {
       "town": "Tahiti",
       "nation": "Kingdom_of_Tahiti",
-      "bank": 25055.89,
+      "bank": 32601.89,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -4288,7 +4295,7 @@
     },
     {
       "town": "The_Alamo",
-      "nation": "Vinovia",
+      "nation": "Void_Empire",
       "bank": 47654.47,
       "upkeep": 0,
       "days_rounded": null
@@ -4324,7 +4331,7 @@
     {
       "town": "Thexan",
       "nation": "Imperium_Romanum",
-      "bank": 11399.6,
+      "bank": 11400.6,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -4807,7 +4814,7 @@
     {
       "town": "Yorkshire",
       "nation": "British_Empire",
-      "bank": 619.15,
+      "bank": 692.15,
       "upkeep": 0,
       "days_rounded": null
     },
