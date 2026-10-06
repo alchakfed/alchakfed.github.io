@@ -1,5 +1,5 @@
 {
-  "scraped_at": "2026-10-06T00:54:34.514Z",
+  "scraped_at": "2026-10-06T23:11:22.993Z",
   "source": "https://map.ccnetmc.com/nationsmap",
   "towns": [
     {
@@ -187,14 +187,14 @@
     {
       "town": "Anguli_Maris",
       "nation": "Thracian_Dominion",
-      "bank": 4628.79,
+      "bank": 7706.79,
       "upkeep": 0,
       "days_rounded": null
     },
     {
       "town": "Antalya",
       "nation": "The_Dominion_Of_Rovaryn",
-      "bank": 117153,
+      "bank": 127736,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -482,13 +482,6 @@
       "town": "Bonebrook",
       "nation": "Void_Empire",
       "bank": 15043.55,
-      "upkeep": 0,
-      "days_rounded": null
-    },
-    {
-      "town": "Boozeville",
-      "nation": "Eastern_Syndicate",
-      "bank": 2.22,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -803,7 +796,7 @@
     {
       "town": "Chiggleton",
       "nation": "West_Coast_Republic",
-      "bank": 27011.91,
+      "bank": 27578.91,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -1083,7 +1076,7 @@
     {
       "town": "Dragor",
       "nation": "British_Empire",
-      "bank": 3134.74,
+      "bank": 15234.74,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -1531,7 +1524,7 @@
     {
       "town": "Grande_Palestine",
       "nation": "Asian_Empire",
-      "bank": 279.17,
+      "bank": 1279.17,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -2196,7 +2189,7 @@
     {
       "town": "Lhasa",
       "nation": "Eastern_Syndicate",
-      "bank": 16036.04,
+      "bank": 16099.04,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -2259,7 +2252,7 @@
     {
       "town": "Llamalandia",
       "nation": null,
-      "bank": 480,
+      "bank": 64,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -2537,13 +2530,6 @@
       "days_rounded": null
     },
     {
-      "town": "Netherportal",
-      "nation": null,
-      "bank": 0,
-      "upkeep": 0,
-      "days_rounded": null
-    },
-    {
       "town": "New_Amsterdam",
       "nation": "Oceanic_Empire",
       "bank": 7319.34,
@@ -2588,7 +2574,7 @@
     {
       "town": "New_Darwin",
       "nation": "Asian_Empire",
-      "bank": 142109.98,
+      "bank": 139109.98,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -3174,6 +3160,13 @@
       "days_rounded": null
     },
     {
+      "town": "Pemba_Requiem",
+      "nation": "East_African_Federation",
+      "bank": 4055.5,
+      "upkeep": 0,
+      "days_rounded": null
+    },
+    {
       "town": "Penguinopolis",
       "nation": "Elite_Penguin_Force",
       "bank": 1734,
@@ -3673,7 +3666,7 @@
     {
       "town": "Rio_Helado",
       "nation": null,
-      "bank": 219,
+      "bank": 309,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -3904,7 +3897,7 @@
     {
       "town": "Severny_Republic",
       "nation": "Northern_Republic",
-      "bank": 19481,
+      "bank": 19202,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -4121,7 +4114,7 @@
     {
       "town": "St_Davids",
       "nation": "Eastern_Syndicate",
-      "bank": 39489,
+      "bank": 39469,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -4142,7 +4135,7 @@
     {
       "town": "Steelport",
       "nation": "West_Coast_Republic",
-      "bank": 28989.91,
+      "bank": 29298.41,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -4401,7 +4394,7 @@
     {
       "town": "Tihany",
       "nation": "Alchak_Federation",
-      "bank": 60594.91,
+      "bank": 75594.91,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -4533,7 +4526,7 @@
     },
     {
       "town": "Turtle_Bastion",
-      "nation": "Imperium_Romanum",
+      "nation": null,
       "bank": 7307,
       "upkeep": 0,
       "days_rounded": null
@@ -4812,13 +4805,6 @@
       "days_rounded": null
     },
     {
-      "town": "WillieWonkaLand",
-      "nation": null,
-      "bank": 0,
-      "upkeep": 0,
-      "days_rounded": null
-    },
-    {
       "town": "Winterfell",
       "nation": "British_Empire",
       "bank": 12991.44,
@@ -4850,13 +4836,6 @@
       "town": "Wuhan",
       "nation": "Eastern_Syndicate",
       "bank": 1934.78,
-      "upkeep": 0,
-      "days_rounded": null
-    },
-    {
-      "town": "Xeodistan",
-      "nation": "East_African_Federation",
-      "bank": 4183.5,
       "upkeep": 0,
       "days_rounded": null
     },
