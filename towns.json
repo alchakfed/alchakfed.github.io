@@ -1,5 +1,5 @@
 {
-  "scraped_at": "2026-10-06T23:11:22.993Z",
+  "scraped_at": "2026-10-07T23:40:57.384Z",
   "source": "https://map.ccnetmc.com/nationsmap",
   "towns": [
     {
@@ -194,7 +194,7 @@
     {
       "town": "Antalya",
       "nation": "The_Dominion_Of_Rovaryn",
-      "bank": 127736,
+      "bank": 119711,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -279,13 +279,6 @@
       "town": "Astraeus",
       "nation": "Persian_Empire",
       "bank": 4166.66,
-      "upkeep": 0,
-      "days_rounded": null
-    },
-    {
-      "town": "Astrelo",
-      "nation": null,
-      "bank": 410,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -516,7 +509,7 @@
     {
       "town": "Brotherhood_Of_Steel",
       "nation": "Imperial_North",
-      "bank": 4937.1,
+      "bank": 4988.1,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -696,6 +689,13 @@
       "days_rounded": null
     },
     {
+      "town": "Celebrity_Apex",
+      "nation": "Gran_Colombia",
+      "bank": 5163.41,
+      "upkeep": 0,
+      "days_rounded": null
+    },
+    {
       "town": "Celle",
       "nation": "Imperium_Romanum",
       "bank": 5957.09,
@@ -796,7 +796,7 @@
     {
       "town": "Chiggleton",
       "nation": "West_Coast_Republic",
-      "bank": 27578.91,
+      "bank": 23937.91,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -866,7 +866,7 @@
     {
       "town": "Copper_Bay",
       "nation": null,
-      "bank": 1851.48,
+      "bank": 1932.74,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -880,7 +880,7 @@
     {
       "town": "Cratopolis",
       "nation": "Eastern_Syndicate",
-      "bank": 2673.1,
+      "bank": 3674.1,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -1972,7 +1972,7 @@
     {
       "town": "Kazachye",
       "nation": "Asian_Empire",
-      "bank": 2440.86,
+      "bank": 3939.86,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -2652,6 +2652,13 @@
       "town": "New_Moscow",
       "nation": "Asian_Empire",
       "bank": 1077.89,
+      "upkeep": 0,
+      "days_rounded": null
+    },
+    {
+      "town": "New_Ranidae",
+      "nation": null,
+      "bank": 745,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -3449,7 +3456,7 @@
     {
       "town": "Port_Tora",
       "nation": "Asian_Empire",
-      "bank": 3021.69,
+      "bank": 108021.69,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -3545,6 +3552,13 @@
       "days_rounded": null
     },
     {
+      "town": "Puerto_Simon",
+      "nation": "Landinian_Federation",
+      "bank": 15649.89,
+      "upkeep": 0,
+      "days_rounded": null
+    },
+    {
       "town": "Purronto",
       "nation": "Quintessence_Syndicate",
       "bank": 4666.48,
@@ -3596,7 +3610,14 @@
     {
       "town": "Qotroya",
       "nation": "Thracian_Dominion",
-      "bank": 2100,
+      "bank": 635,
+      "upkeep": 0,
+      "days_rounded": null
+    },
+    {
+      "town": "Qotroya_Lumini",
+      "nation": null,
+      "bank": 671,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -3783,13 +3804,6 @@
       "days_rounded": null
     },
     {
-      "town": "São_Paulo",
-      "nation": "Gran_Colombia",
-      "bank": 6315.41,
-      "upkeep": 0,
-      "days_rounded": null
-    },
-    {
       "town": "Sapporo",
       "nation": "Asian_Empire",
       "bank": 3326.81,
@@ -3897,7 +3911,7 @@
     {
       "town": "Severny_Republic",
       "nation": "Northern_Republic",
-      "bank": 19202,
+      "bank": 17201,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -4135,7 +4149,7 @@
     {
       "town": "Steelport",
       "nation": "West_Coast_Republic",
-      "bank": 29298.41,
+      "bank": 29311.91,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -4394,7 +4408,7 @@
     {
       "town": "Tihany",
       "nation": "Alchak_Federation",
-      "bank": 75594.91,
+      "bank": 91594.91,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -4441,23 +4455,9 @@
       "days_rounded": null
     },
     {
-      "town": "Torres_Tortas",
-      "nation": null,
-      "bank": 941.59,
-      "upkeep": 0,
-      "days_rounded": null
-    },
-    {
       "town": "Tosa",
       "nation": "Asian_Empire",
       "bank": 871.7,
-      "upkeep": 0,
-      "days_rounded": null
-    },
-    {
-      "town": "Trang",
-      "nation": null,
-      "bank": 0.76,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -4717,13 +4717,6 @@
       "town": "Vinland",
       "nation": "Asian_Empire",
       "bank": 37148.72,
-      "upkeep": 0,
-      "days_rounded": null
-    },
-    {
-      "town": "VoidRum",
-      "nation": null,
-      "bank": 19,
       "upkeep": 0,
       "days_rounded": null
     },
