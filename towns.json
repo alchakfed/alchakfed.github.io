@@ -1,5 +1,5 @@
 {
-  "scraped_at": "2026-10-08T23:51:15.144Z",
+  "scraped_at": "2026-10-09T23:24:05.187Z",
   "source": "https://map.ccnetmc.com/nationsmap",
   "towns": [
     {
@@ -194,7 +194,7 @@
     {
       "town": "Antalya",
       "nation": "The_Dominion_Of_Rovaryn",
-      "bank": 119711,
+      "bank": 104978,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -516,7 +516,7 @@
     {
       "town": "Brotherhood_Of_Steel",
       "nation": "Imperial_North",
-      "bank": 6044.1,
+      "bank": 6248.1,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -593,7 +593,7 @@
     {
       "town": "Camden_City",
       "nation": null,
-      "bank": 2,
+      "bank": 0,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -803,7 +803,7 @@
     {
       "town": "Chiggleton",
       "nation": "West_Coast_Republic",
-      "bank": 11350.11,
+      "bank": 6852.63,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -986,6 +986,13 @@
       "town": "Dawn",
       "nation": "Canada",
       "bank": -41,
+      "upkeep": 0,
+      "days_rounded": null
+    },
+    {
+      "town": "DeathwatchAI",
+      "nation": null,
+      "bank": 4500,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -1202,7 +1209,7 @@
     {
       "town": "Elephantia",
       "nation": "Gran_Colombia",
-      "bank": 5145.75,
+      "bank": 5276.55,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -1545,7 +1552,7 @@
     {
       "town": "Greenland",
       "nation": "British_Empire",
-      "bank": 104504.85,
+      "bank": 109086.85,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -2056,7 +2063,7 @@
     {
       "town": "Konigsberg",
       "nation": "Imperium_Romanum",
-      "bank": 825026.21,
+      "bank": 825426.21,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -2189,7 +2196,7 @@
     {
       "town": "Lhasa",
       "nation": "Eastern_Syndicate",
-      "bank": 16243.04,
+      "bank": 16333.04,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -2251,8 +2258,8 @@
     },
     {
       "town": "Llamalandia",
-      "nation": null,
-      "bank": 2880,
+      "nation": "Void_Empire",
+      "bank": 3082,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -2455,7 +2462,7 @@
     {
       "town": "Murmansk",
       "nation": "Imperium_Romanum",
-      "bank": 31796.41,
+      "bank": 32296.41,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -2658,7 +2665,7 @@
     {
       "town": "New_Ranidae",
       "nation": null,
-      "bank": 1879,
+      "bank": 1703,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -2771,6 +2778,13 @@
       "town": "Nexus",
       "nation": "Eastern_Syndicate",
       "bank": 6930.81,
+      "upkeep": 0,
+      "days_rounded": null
+    },
+    {
+      "town": "Nice_Town",
+      "nation": "Eastern_Syndicate",
+      "bank": 240,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -3043,7 +3057,7 @@
     {
       "town": "Ordanbek",
       "nation": "The_Great_Lotus_Empire",
-      "bank": 58486.79,
+      "bank": 58573.79,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -3106,7 +3120,7 @@
     {
       "town": "Oxford",
       "nation": "British_Empire",
-      "bank": 5546.34,
+      "bank": 5102.34,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -3456,7 +3470,7 @@
     {
       "town": "Port_Tora",
       "nation": "Asian_Empire",
-      "bank": 108021.69,
+      "bank": 27412.69,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -4149,7 +4163,7 @@
     {
       "town": "Steelport",
       "nation": "West_Coast_Republic",
-      "bank": 29645.91,
+      "bank": 29662.41,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -4597,7 +4611,7 @@
     {
       "town": "Varas",
       "nation": "Landinian_Federation",
-      "bank": 26261,
+      "bank": 26008,
       "upkeep": 0,
       "days_rounded": null
     },
