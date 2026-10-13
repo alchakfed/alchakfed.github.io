@@ -1,5 +1,5 @@
 {
-  "scraped_at": "2026-10-11T23:03:37.907Z",
+  "scraped_at": "2026-10-13T01:32:46.953Z",
   "source": "https://map.ccnetmc.com/nationsmap",
   "towns": [
     {
@@ -138,7 +138,7 @@
     {
       "town": "Allakaket",
       "nation": "West_Coast_Republic",
-      "bank": 6847.16,
+      "bank": 9847.16,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -194,14 +194,14 @@
     {
       "town": "Antalya",
       "nation": "The_Dominion_Of_Rovaryn",
-      "bank": 95282,
+      "bank": 102080,
       "upkeep": 0,
       "days_rounded": null
     },
     {
       "town": "Anubis",
       "nation": "Spanish_Empire",
-      "bank": 1408.99,
+      "bank": 6408.99,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -237,13 +237,6 @@
       "town": "Arkhangelsk",
       "nation": null,
       "bank": 8976,
-      "upkeep": 0,
-      "days_rounded": null
-    },
-    {
-      "town": "Armenia",
-      "nation": null,
-      "bank": 0,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -411,7 +404,7 @@
     {
       "town": "Barcelona",
       "nation": "Spanish_Empire",
-      "bank": 2172.28,
+      "bank": 12172.28,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -474,7 +467,7 @@
     {
       "town": "Bombolo",
       "nation": null,
-      "bank": 342,
+      "bank": 7261,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -482,6 +475,13 @@
       "town": "Bonebrook",
       "nation": "Void_Empire",
       "bank": 15043.55,
+      "upkeep": 0,
+      "days_rounded": null
+    },
+    {
+      "town": "Bopistan",
+      "nation": "Imperia_Telvaria",
+      "bank": 1637,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -516,7 +516,7 @@
     {
       "town": "Brotherhood_Of_Steel",
       "nation": "Imperial_North",
-      "bank": 2707.1,
+      "bank": 5259.1,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -565,7 +565,7 @@
     {
       "town": "California",
       "nation": "West_Coast_Republic",
-      "bank": 19538.95,
+      "bank": 21538.95,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -587,13 +587,6 @@
       "town": "Cambridge_Bay",
       "nation": "Canada",
       "bank": 490,
-      "upkeep": 0,
-      "days_rounded": null
-    },
-    {
-      "town": "Camden_City",
-      "nation": null,
-      "bank": 0,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -677,7 +670,7 @@
     {
       "town": "Castellum",
       "nation": "West_Coast_Republic",
-      "bank": 50797,
+      "bank": 80797,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -1202,7 +1195,7 @@
     {
       "town": "Elephantia",
       "nation": "Gran_Colombia",
-      "bank": 5276.55,
+      "bank": 5567.48,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -1292,7 +1285,7 @@
     },
     {
       "town": "Filóti",
-      "nation": null,
+      "nation": "Imperia_Telvaria",
       "bank": 1037,
       "upkeep": 0,
       "days_rounded": null
@@ -1335,7 +1328,7 @@
     {
       "town": "Flowersvillage",
       "nation": "Thracian_Dominion",
-      "bank": 7787.06,
+      "bank": 10476.06,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -1741,7 +1734,7 @@
     {
       "town": "IgnisGlacies",
       "nation": "Elite_Penguin_Force",
-      "bank": 19362.1,
+      "bank": 20400.1,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -1860,7 +1853,7 @@
     {
       "town": "Jeju_Do",
       "nation": "Asian_Empire",
-      "bank": 5683.91,
+      "bank": 6246.91,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -2196,7 +2189,7 @@
     {
       "town": "Lhasa",
       "nation": "Eastern_Syndicate",
-      "bank": 16513.04,
+      "bank": 16639.04,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -2482,7 +2475,7 @@
     },
     {
       "town": "Nadymsky",
-      "nation": "Eastern_Syndicate",
+      "nation": "Northern_Republic",
       "bank": 19673.85,
       "upkeep": 0,
       "days_rounded": null
@@ -3426,16 +3419,16 @@
       "days_rounded": null
     },
     {
-      "town": "Port_Sangatta",
-      "nation": "Landinian_Federation",
-      "bank": 6772.08,
+      "town": "Port_Ruby",
+      "nation": "Imperial_Federation",
+      "bank": 3923.79,
       "upkeep": 0,
       "days_rounded": null
     },
     {
-      "town": "Port_Sapphire",
-      "nation": "Imperial_Federation",
-      "bank": 4051.79,
+      "town": "Port_Sangatta",
+      "nation": "Landinian_Federation",
+      "bank": 6772.08,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -3568,7 +3561,7 @@
     {
       "town": "Puerto_Lando",
       "nation": "Landinian_Federation",
-      "bank": 123387.45,
+      "bank": 124387.45,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -3582,7 +3575,7 @@
     {
       "town": "Puntland_Republic",
       "nation": "Persian_Empire",
-      "bank": 2063.6,
+      "bank": 1951.6,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -4296,7 +4289,7 @@
     {
       "town": "Tahiti",
       "nation": "Kingdom_of_Tahiti",
-      "bank": 75948.89,
+      "bank": 77190.89,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -4457,7 +4450,7 @@
     {
       "town": "Tokyo",
       "nation": "Asian_Empire",
-      "bank": 2709100.16,
+      "bank": 2737750.16,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -4548,7 +4541,7 @@
     {
       "town": "Turtle_Bastion",
       "nation": "Testudo_Dominion",
-      "bank": 4345,
+      "bank": 7845,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -4562,14 +4555,14 @@
     {
       "town": "Turtle_Dio",
       "nation": "Testudo_Dominion",
-      "bank": 451,
+      "bank": 2451,
       "upkeep": 0,
       "days_rounded": null
     },
     {
       "town": "Valencia",
       "nation": "Spanish_Empire",
-      "bank": 1178.46,
+      "bank": 6178.46,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -4604,7 +4597,7 @@
     {
       "town": "Vancouver_Pier",
       "nation": "West_Coast_Republic",
-      "bank": 11919,
+      "bank": 11892,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -4688,7 +4681,7 @@
     {
       "town": "Ventora",
       "nation": "Imperium_Romanum",
-      "bank": 216843.22,
+      "bank": 216587.22,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -4758,7 +4751,7 @@
     {
       "town": "Volgograd",
       "nation": "Thracian_Dominion",
-      "bank": 2582.98,
+      "bank": 3579.98,
       "upkeep": 0,
       "days_rounded": null
     },
