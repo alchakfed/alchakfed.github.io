@@ -1,5 +1,5 @@
 {
-  "scraped_at": "2026-10-13T01:32:46.953Z",
+  "scraped_at": "2026-10-13T23:22:37.314Z",
   "source": "https://map.ccnetmc.com/nationsmap",
   "towns": [
     {
@@ -138,7 +138,7 @@
     {
       "town": "Allakaket",
       "nation": "West_Coast_Republic",
-      "bank": 9847.16,
+      "bank": 12847.16,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -194,7 +194,7 @@
     {
       "town": "Antalya",
       "nation": "The_Dominion_Of_Rovaryn",
-      "bank": 102080,
+      "bank": 93783,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -1195,7 +1195,7 @@
     {
       "town": "Elephantia",
       "nation": "Gran_Colombia",
-      "bank": 5567.48,
+      "bank": 5655.68,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -1531,7 +1531,7 @@
     {
       "town": "Grande_Palestine",
       "nation": "Asian_Empire",
-      "bank": 1279.17,
+      "bank": 1264.17,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -1608,7 +1608,7 @@
     {
       "town": "Haliburton",
       "nation": "Persian_Empire",
-      "bank": 5100.06,
+      "bank": 5089.06,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -2189,7 +2189,7 @@
     {
       "town": "Lhasa",
       "nation": "Eastern_Syndicate",
-      "bank": 16639.04,
+      "bank": 16765.04,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -2209,8 +2209,8 @@
     },
     {
       "town": "Likasi",
-      "nation": null,
-      "bank": 423,
+      "nation": "Imperia_Telvaria",
+      "bank": 284,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -2644,7 +2644,7 @@
     {
       "town": "New_Middelburg",
       "nation": "Oceanic_Empire",
-      "bank": 3893.14,
+      "bank": 3637.14,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -2861,14 +2861,14 @@
     {
       "town": "North_Spero",
       "nation": "Republic_Of_Sakha",
-      "bank": 324.89,
+      "bank": 3324.89,
       "upkeep": 0,
       "days_rounded": null
     },
     {
       "town": "North_Star",
       "nation": "Republic_Of_Sakha",
-      "bank": 80306.03,
+      "bank": 91238.03,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -3433,6 +3433,13 @@
       "days_rounded": null
     },
     {
+      "town": "Port_Sapphire",
+      "nation": "Imperial_Federation",
+      "bank": 4337,
+      "upkeep": 0,
+      "days_rounded": null
+    },
+    {
       "town": "Port_Satsuma",
       "nation": "Asian_Empire",
       "bank": 718.96,
@@ -3568,7 +3575,7 @@
     {
       "town": "Puerto_Simon",
       "nation": "Landinian_Federation",
-      "bank": 28649.89,
+      "bank": 18649.89,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -3699,13 +3706,6 @@
       "days_rounded": null
     },
     {
-      "town": "Rio_Helado",
-      "nation": null,
-      "bank": 9,
-      "upkeep": 0,
-      "days_rounded": null
-    },
-    {
       "town": "Rivendell",
       "nation": "Imperia_Telvaria",
       "bank": 67545.47,
@@ -3758,13 +3758,6 @@
       "town": "Sacred_Flame",
       "nation": "Asian_Empire",
       "bank": 4253.52,
-      "upkeep": 0,
-      "days_rounded": null
-    },
-    {
-      "town": "Saigon",
-      "nation": null,
-      "bank": 36.22,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -3925,7 +3918,7 @@
     {
       "town": "Severny_Republic",
       "nation": "Northern_Republic",
-      "bank": 17201,
+      "bank": 17137,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -4289,7 +4282,7 @@
     {
       "town": "Tahiti",
       "nation": "Kingdom_of_Tahiti",
-      "bank": 77190.89,
+      "bank": 77792.89,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -4540,21 +4533,21 @@
     },
     {
       "town": "Turtle_Bastion",
-      "nation": "Testudo_Dominion",
+      "nation": "Sub_Telvarian_Syndicate",
       "bank": 7845,
       "upkeep": 0,
       "days_rounded": null
     },
     {
       "town": "Turtle_Defence",
-      "nation": "Testudo_Dominion",
+      "nation": "Sub_Telvarian_Syndicate",
       "bank": 2370,
       "upkeep": 0,
       "days_rounded": null
     },
     {
       "town": "Turtle_Dio",
-      "nation": "Testudo_Dominion",
+      "nation": "Sub_Telvarian_Syndicate",
       "bank": 2451,
       "upkeep": 0,
       "days_rounded": null
@@ -4597,7 +4590,7 @@
     {
       "town": "Vancouver_Pier",
       "nation": "West_Coast_Republic",
-      "bank": 11892,
+      "bank": 11883,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -4723,7 +4716,7 @@
     {
       "town": "Victoria",
       "nation": "Imperia_Victoria",
-      "bank": 2778810.58,
+      "bank": 2797310.58,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -4835,7 +4828,7 @@
     {
       "town": "Wolf_Port",
       "nation": "Imperial_North",
-      "bank": 1029.83,
+      "bank": 6029.83,
       "upkeep": 0,
       "days_rounded": null
     },
