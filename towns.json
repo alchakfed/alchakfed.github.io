@@ -1,5 +1,5 @@
 {
-  "scraped_at": "2026-10-13T23:22:37.314Z",
+  "scraped_at": "2026-10-14T22:29:49.678Z",
   "source": "https://map.ccnetmc.com/nationsmap",
   "towns": [
     {
@@ -194,7 +194,7 @@
     {
       "town": "Antalya",
       "nation": "The_Dominion_Of_Rovaryn",
-      "bank": 93783,
+      "bank": 95000,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -516,7 +516,7 @@
     {
       "town": "Brotherhood_Of_Steel",
       "nation": "Imperial_North",
-      "bank": 5259.1,
+      "bank": 5618.1,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -789,7 +789,7 @@
     {
       "town": "Chiggleton",
       "nation": "West_Coast_Republic",
-      "bank": 9218.63,
+      "bank": 9309.47,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -1496,7 +1496,7 @@
     {
       "town": "Glacies",
       "nation": "Elite_Penguin_Force",
-      "bank": 20277.6,
+      "bank": 20763.6,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -1707,6 +1707,13 @@
       "town": "Houston",
       "nation": "Imperial_North",
       "bank": 3112.56,
+      "upkeep": 0,
+      "days_rounded": null
+    },
+    {
+      "town": "Hunduras",
+      "nation": null,
+      "bank": 119,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -2868,7 +2875,7 @@
     {
       "town": "North_Star",
       "nation": "Republic_Of_Sakha",
-      "bank": 91238.03,
+      "bank": 91194.03,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -2889,7 +2896,7 @@
     {
       "town": "Northwest_Territories",
       "nation": "Canada",
-      "bank": 10725.35,
+      "bank": 9225.35,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -3931,7 +3938,7 @@
     },
     {
       "town": "Sharktopia",
-      "nation": null,
+      "nation": "Imperium_Romanum",
       "bank": 1550,
       "upkeep": 0,
       "days_rounded": null
@@ -4105,6 +4112,13 @@
       "days_rounded": null
     },
     {
+      "town": "Southern_Territories",
+      "nation": "Canada",
+      "bank": 831,
+      "upkeep": 0,
+      "days_rounded": null
+    },
+    {
       "town": "Soviet_Leningrad",
       "nation": null,
       "bank": 5134.45,
@@ -4156,7 +4170,7 @@
     {
       "town": "Steelport",
       "nation": "West_Coast_Republic",
-      "bank": 30147.41,
+      "bank": 30258.05,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -4282,7 +4296,7 @@
     {
       "town": "Tahiti",
       "nation": "Kingdom_of_Tahiti",
-      "bank": 77792.89,
+      "bank": 77903.89,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -4533,21 +4547,21 @@
     },
     {
       "town": "Turtle_Bastion",
-      "nation": "Sub_Telvarian_Syndicate",
+      "nation": "Testudo_Dominion",
       "bank": 7845,
       "upkeep": 0,
       "days_rounded": null
     },
     {
       "town": "Turtle_Defence",
-      "nation": "Sub_Telvarian_Syndicate",
+      "nation": "Testudo_Dominion",
       "bank": 2370,
       "upkeep": 0,
       "days_rounded": null
     },
     {
       "town": "Turtle_Dio",
-      "nation": "Sub_Telvarian_Syndicate",
+      "nation": "Testudo_Dominion",
       "bank": 2451,
       "upkeep": 0,
       "days_rounded": null
@@ -4590,7 +4604,7 @@
     {
       "town": "Vancouver_Pier",
       "nation": "West_Coast_Republic",
-      "bank": 11883,
+      "bank": 11874,
       "upkeep": 0,
       "days_rounded": null
     },
