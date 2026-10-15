@@ -1,5 +1,5 @@
 {
-  "scraped_at": "2026-10-14T22:29:49.678Z",
+  "scraped_at": "2026-10-15T22:34:23.107Z",
   "source": "https://map.ccnetmc.com/nationsmap",
   "towns": [
     {
@@ -194,7 +194,7 @@
     {
       "town": "Antalya",
       "nation": "The_Dominion_Of_Rovaryn",
-      "bank": 95000,
+      "bank": 97116,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -341,7 +341,7 @@
     {
       "town": "Aussa",
       "nation": "Kingdom_Of_Ethiopia",
-      "bank": 2431.69,
+      "bank": 2403.69,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -670,7 +670,7 @@
     {
       "town": "Castellum",
       "nation": "West_Coast_Republic",
-      "bank": 80797,
+      "bank": 151397,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -1335,7 +1335,7 @@
     {
       "town": "Folk_Tower",
       "nation": "West_Coast_Republic",
-      "bank": 581,
+      "bank": 256,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -1348,8 +1348,8 @@
     },
     {
       "town": "Fort_Anaxes",
-      "nation": null,
-      "bank": 635,
+      "nation": "Void_Empire",
+      "bank": 1635,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -1496,7 +1496,7 @@
     {
       "town": "Glacies",
       "nation": "Elite_Penguin_Force",
-      "bank": 20763.6,
+      "bank": 21168.6,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -1712,8 +1712,8 @@
     },
     {
       "town": "Hunduras",
-      "nation": null,
-      "bank": 119,
+      "nation": "Void_Empire",
+      "bank": 750,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -1741,7 +1741,7 @@
     {
       "town": "IgnisGlacies",
       "nation": "Elite_Penguin_Force",
-      "bank": 20400.1,
+      "bank": 23555.1,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -2196,7 +2196,7 @@
     {
       "town": "Lhasa",
       "nation": "Eastern_Syndicate",
-      "bank": 16765.04,
+      "bank": 16828.04,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -2267,13 +2267,6 @@
       "town": "Los_Angeles",
       "nation": "California_Republic",
       "bank": 4367.75,
-      "upkeep": 0,
-      "days_rounded": null
-    },
-    {
-      "town": "Los_Economica",
-      "nation": null,
-      "bank": 38,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -2540,6 +2533,13 @@
       "town": "Nesebar",
       "nation": "Thracian_Dominion",
       "bank": 245726.82,
+      "upkeep": 0,
+      "days_rounded": null
+    },
+    {
+      "town": "Netherportal",
+      "nation": null,
+      "bank": 0,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -2875,7 +2875,7 @@
     {
       "town": "North_Star",
       "nation": "Republic_Of_Sakha",
-      "bank": 91194.03,
+      "bank": 91204.03,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -2896,7 +2896,7 @@
     {
       "town": "Northwest_Territories",
       "nation": "Canada",
-      "bank": 9225.35,
+      "bank": 7225.35,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -3281,7 +3281,7 @@
     {
       "town": "Pontus",
       "nation": null,
-      "bank": 230,
+      "bank": 730,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -3442,7 +3442,7 @@
     {
       "town": "Port_Sapphire",
       "nation": "Imperial_Federation",
-      "bank": 4337,
+      "bank": 4273,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -4126,6 +4126,13 @@
       "days_rounded": null
     },
     {
+      "town": "Soyklahoma_City",
+      "nation": null,
+      "bank": 200,
+      "upkeep": 0,
+      "days_rounded": null
+    },
+    {
       "town": "Sparkletide",
       "nation": null,
       "bank": 0,
@@ -4296,7 +4303,7 @@
     {
       "town": "Tahiti",
       "nation": "Kingdom_of_Tahiti",
-      "bank": 77903.89,
+      "bank": 81783.89,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -4548,14 +4555,14 @@
     {
       "town": "Turtle_Bastion",
       "nation": "Testudo_Dominion",
-      "bank": 7845,
+      "bank": 3245,
       "upkeep": 0,
       "days_rounded": null
     },
     {
       "town": "Turtle_Defence",
       "nation": "Testudo_Dominion",
-      "bank": 2370,
+      "bank": 1949,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -4604,7 +4611,7 @@
     {
       "town": "Vancouver_Pier",
       "nation": "West_Coast_Republic",
-      "bank": 11874,
+      "bank": 11856,
       "upkeep": 0,
       "days_rounded": null
     },
