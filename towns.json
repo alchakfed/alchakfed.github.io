@@ -1,5 +1,5 @@
 {
-  "scraped_at": "2026-10-16T22:10:25.585Z",
+  "scraped_at": "2026-10-17T21:36:00.125Z",
   "source": "https://map.ccnetmc.com/nationsmap",
   "towns": [
     {
@@ -131,7 +131,7 @@
     {
       "town": "Alhambra_Defence",
       "nation": "Spanish_Empire",
-      "bank": 251.83,
+      "bank": 2251.83,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -194,7 +194,7 @@
     {
       "town": "Antalya",
       "nation": "The_Dominion_Of_Rovaryn",
-      "bank": 97884,
+      "bank": 107464,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -495,7 +495,7 @@
     {
       "town": "Bordeaux",
       "nation": "Imperium_Romanum",
-      "bank": 2137.42,
+      "bank": 152137.42,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -516,7 +516,7 @@
     {
       "town": "Brotherhood_Of_Steel",
       "nation": "Imperial_North",
-      "bank": 5566.1,
+      "bank": 5514.1,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -642,7 +642,7 @@
     {
       "town": "Cape_Town",
       "nation": null,
-      "bank": 445,
+      "bank": 285,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -789,7 +789,7 @@
     {
       "town": "Chiggleton",
       "nation": "West_Coast_Republic",
-      "bank": 9945.47,
+      "bank": 10005.47,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -901,7 +901,7 @@
     {
       "town": "Cuarteles",
       "nation": "Spanish_Empire",
-      "bank": 282.93,
+      "bank": 2282.93,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -1061,7 +1061,7 @@
     },
     {
       "town": "Douglas",
-      "nation": "British_Empire",
+      "nation": null,
       "bank": 545.6,
       "upkeep": 0,
       "days_rounded": null
@@ -1209,7 +1209,7 @@
     {
       "town": "Elysium",
       "nation": "Eastern_Syndicate",
-      "bank": 9849.45,
+      "bank": 9851.7,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -1335,7 +1335,7 @@
     {
       "town": "Folk_Tower",
       "nation": "West_Coast_Republic",
-      "bank": 256,
+      "bank": 1257,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -2257,9 +2257,9 @@
       "days_rounded": null
     },
     {
-      "town": "Llamalandia",
-      "nation": "Vinovia",
-      "bank": 3082,
+      "town": "Llamaland",
+      "nation": "Void_Empire",
+      "bank": 279,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -2581,7 +2581,7 @@
     {
       "town": "New_Darwin",
       "nation": "Asian_Empire",
-      "bank": 146101.98,
+      "bank": 145079.98,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -2875,7 +2875,7 @@
     {
       "town": "North_Star",
       "nation": "Republic_Of_Sakha",
-      "bank": 91094.03,
+      "bank": 91050.03,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -3484,7 +3484,7 @@
     {
       "town": "Port_Tora",
       "nation": "Asian_Empire",
-      "bank": 6412.69,
+      "bank": 6368.69,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -3783,6 +3783,13 @@
       "days_rounded": null
     },
     {
+      "town": "Salt_Lake_City",
+      "nation": "Void_Empire",
+      "bank": 364,
+      "upkeep": 0,
+      "days_rounded": null
+    },
+    {
       "town": "San_Hierro",
       "nation": "Oceanic_Empire",
       "bank": 83279.6,
@@ -4037,7 +4044,7 @@
     {
       "town": "Snowpeak",
       "nation": null,
-      "bank": 715.62,
+      "bank": 1966.87,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -4303,7 +4310,7 @@
     {
       "town": "Tahiti",
       "nation": "Kingdom_of_Tahiti",
-      "bank": 80783.89,
+      "bank": 48736.89,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -4316,7 +4323,7 @@
     },
     {
       "town": "Tasmania",
-      "nation": "Eastern_Syndicate",
+      "nation": null,
       "bank": 5748.73,
       "upkeep": 0,
       "days_rounded": null
@@ -4422,7 +4429,7 @@
     {
       "town": "The_State_Of_Oldale",
       "nation": "Imperial_Federation",
-      "bank": 15605.94,
+      "bank": 22790.94,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -4464,7 +4471,7 @@
     {
       "town": "Tokyo",
       "nation": "Asian_Empire",
-      "bank": 2774362.16,
+      "bank": 2784362.16,
       "upkeep": 0,
       "days_rounded": null
     },
