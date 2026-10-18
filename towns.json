@@ -1,5 +1,5 @@
 {
-  "scraped_at": "2026-10-17T21:36:00.125Z",
+  "scraped_at": "2026-10-18T21:39:59.528Z",
   "source": "https://map.ccnetmc.com/nationsmap",
   "towns": [
     {
@@ -194,7 +194,7 @@
     {
       "town": "Antalya",
       "nation": "The_Dominion_Of_Rovaryn",
-      "bank": 107464,
+      "bank": 123508,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -516,7 +516,7 @@
     {
       "town": "Brotherhood_Of_Steel",
       "nation": "Imperial_North",
-      "bank": 5514.1,
+      "bank": 1387.1,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -1195,7 +1195,7 @@
     {
       "town": "Elephantia",
       "nation": "Gran_Colombia",
-      "bank": 5655.68,
+      "bank": 5539.28,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -1209,7 +1209,7 @@
     {
       "town": "Elysium",
       "nation": "Eastern_Syndicate",
-      "bank": 9851.7,
+      "bank": 9887.7,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -1335,7 +1335,7 @@
     {
       "town": "Folk_Tower",
       "nation": "West_Coast_Republic",
-      "bank": 1257,
+      "bank": 200,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -1496,7 +1496,7 @@
     {
       "town": "Glacies",
       "nation": "Elite_Penguin_Force",
-      "bank": 21267.6,
+      "bank": 21834.6,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -2112,7 +2112,7 @@
     {
       "town": "Kushiro",
       "nation": "Asian_Empire",
-      "bank": 6025.18,
+      "bank": 6775.18,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -2196,7 +2196,7 @@
     {
       "town": "Lhasa",
       "nation": "Eastern_Syndicate",
-      "bank": 16981.04,
+      "bank": 17107.04,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -2258,8 +2258,8 @@
     },
     {
       "town": "Llamaland",
-      "nation": "Void_Empire",
-      "bank": 279,
+      "nation": "Vinovia",
+      "bank": 507,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -2537,13 +2537,6 @@
       "days_rounded": null
     },
     {
-      "town": "Netherportal",
-      "nation": null,
-      "bank": 0,
-      "upkeep": 0,
-      "days_rounded": null
-    },
-    {
       "town": "New_Amsterdam",
       "nation": "Oceanic_Empire",
       "bank": 7319.34,
@@ -2581,7 +2574,7 @@
     {
       "town": "New_Darwin",
       "nation": "Asian_Empire",
-      "bank": 145079.98,
+      "bank": 152620.98,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -2896,7 +2889,7 @@
     {
       "town": "Northwest_Territories",
       "nation": "Canada",
-      "bank": 7225.35,
+      "bank": 6636.35,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -3148,7 +3141,7 @@
     {
       "town": "Palliser",
       "nation": "The_Protocol_State",
-      "bank": 39755,
+      "bank": 38918,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -3183,7 +3176,7 @@
     {
       "town": "Pemba",
       "nation": "Imperia_Telvaria",
-      "bank": 4894.48,
+      "bank": 20894.48,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -3470,7 +3463,7 @@
     {
       "town": "Port_SnowBeam",
       "nation": "West_Coast_Republic",
-      "bank": 2040.49,
+      "bank": 2681.49,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -3575,14 +3568,14 @@
     {
       "town": "Puerto_Lando",
       "nation": "Landinian_Federation",
-      "bank": 124387.45,
+      "bank": 124351.45,
       "upkeep": 0,
       "days_rounded": null
     },
     {
       "town": "Puerto_Simon",
       "nation": "Landinian_Federation",
-      "bank": 18649.89,
+      "bank": 2149.89,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -3784,8 +3777,8 @@
     },
     {
       "town": "Salt_Lake_City",
-      "nation": "Void_Empire",
-      "bank": 364,
+      "nation": null,
+      "bank": 919,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -4310,7 +4303,7 @@
     {
       "town": "Tahiti",
       "nation": "Kingdom_of_Tahiti",
-      "bank": 48736.89,
+      "bank": 99787.89,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -4429,7 +4422,7 @@
     {
       "town": "The_State_Of_Oldale",
       "nation": "Imperial_Federation",
-      "bank": 22790.94,
+      "bank": 27146.94,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -4646,7 +4639,7 @@
     {
       "town": "Varas",
       "nation": "Landinian_Federation",
-      "bank": 31964,
+      "bank": 28964,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -4821,7 +4814,7 @@
     {
       "town": "Wellington",
       "nation": "Oceanic_Empire",
-      "bank": 962.86,
+      "bank": 1250.46,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -4877,7 +4870,7 @@
     {
       "town": "Wuhan",
       "nation": "Eastern_Syndicate",
-      "bank": 1934.78,
+      "bank": 1812.78,
       "upkeep": 0,
       "days_rounded": null
     },
