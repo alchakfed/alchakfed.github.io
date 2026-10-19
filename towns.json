@@ -1,11 +1,11 @@
 {
-  "scraped_at": "2026-10-18T21:39:59.528Z",
+  "scraped_at": "2026-10-19T22:59:51.184Z",
   "source": "https://map.ccnetmc.com/nationsmap",
   "towns": [
     {
       "town": "Acapulco",
       "nation": "California_Republic",
-      "bank": 17474.39,
+      "bank": 17452.39,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -89,7 +89,7 @@
     {
       "town": "Al_Maghreb",
       "nation": "Spanish_Empire",
-      "bank": 1164.62,
+      "bank": 1720.62,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -194,7 +194,7 @@
     {
       "town": "Antalya",
       "nation": "The_Dominion_Of_Rovaryn",
-      "bank": 123508,
+      "bank": 134701,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -516,7 +516,7 @@
     {
       "town": "Brotherhood_Of_Steel",
       "nation": "Imperial_North",
-      "bank": 1387.1,
+      "bank": 1030.1,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -642,7 +642,7 @@
     {
       "town": "Cape_Town",
       "nation": null,
-      "bank": 285,
+      "bank": 275,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -747,7 +747,7 @@
     {
       "town": "Chamdo",
       "nation": null,
-      "bank": 835616.07,
+      "bank": 825616.07,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -789,7 +789,7 @@
     {
       "town": "Chiggleton",
       "nation": "West_Coast_Republic",
-      "bank": 10005.47,
+      "bank": 10083.47,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -2196,7 +2196,7 @@
     {
       "town": "Lhasa",
       "nation": "Eastern_Syndicate",
-      "bank": 17107.04,
+      "bank": 17359.04,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -2259,7 +2259,7 @@
     {
       "town": "Llamaland",
       "nation": "Vinovia",
-      "bank": 507,
+      "bank": 633,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -3463,7 +3463,7 @@
     {
       "town": "Port_SnowBeam",
       "nation": "West_Coast_Republic",
-      "bank": 2681.49,
+      "bank": 2684.99,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -3778,7 +3778,7 @@
     {
       "town": "Salt_Lake_City",
       "nation": null,
-      "bank": 919,
+      "bank": 807,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -4017,6 +4017,13 @@
       "town": "Skinwalker_City",
       "nation": "Gran_Colombia",
       "bank": 987309.46,
+      "upkeep": 0,
+      "days_rounded": null
+    },
+    {
+      "town": "Skipsvrak",
+      "nation": null,
+      "bank": 353,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -4310,7 +4317,7 @@
     {
       "town": "Tarsonis_Dio",
       "nation": "Imperia_Telvaria",
-      "bank": 25496.58,
+      "bank": 4000.58,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -4394,7 +4401,7 @@
     {
       "town": "The_Alamo",
       "nation": "Void_Empire",
-      "bank": 60000.47,
+      "bank": 55000.47,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -4422,7 +4429,7 @@
     {
       "town": "The_State_Of_Oldale",
       "nation": "Imperial_Federation",
-      "bank": 27146.94,
+      "bank": 32298.44,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -4555,7 +4562,7 @@
     {
       "town": "Turtle_Bastion",
       "nation": "Testudo_Dominion",
-      "bank": 3245,
+      "bank": 2945,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -4870,7 +4877,7 @@
     {
       "town": "Wuhan",
       "nation": "Eastern_Syndicate",
-      "bank": 1812.78,
+      "bank": 1740.78,
       "upkeep": 0,
       "days_rounded": null
     },
