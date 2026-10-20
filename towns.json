@@ -1,5 +1,5 @@
 {
-  "scraped_at": "2026-10-19T22:59:51.184Z",
+  "scraped_at": "2026-10-20T22:30:29.822Z",
   "source": "https://map.ccnetmc.com/nationsmap",
   "towns": [
     {
@@ -194,7 +194,7 @@
     {
       "town": "Antalya",
       "nation": "The_Dominion_Of_Rovaryn",
-      "bank": 134701,
+      "bank": 144878,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -565,7 +565,7 @@
     {
       "town": "California",
       "nation": "West_Coast_Republic",
-      "bank": 21538.95,
+      "bank": 22538.95,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -789,7 +789,7 @@
     {
       "town": "Chiggleton",
       "nation": "West_Coast_Republic",
-      "bank": 10083.47,
+      "bank": 10113.47,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -915,7 +915,7 @@
     {
       "town": "Cultist",
       "nation": "Gran_Colombia",
-      "bank": 18282.6,
+      "bank": 500.6,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -1056,13 +1056,6 @@
       "town": "Doomstadt",
       "nation": "Eastern_Syndicate",
       "bank": 2640.75,
-      "upkeep": 0,
-      "days_rounded": null
-    },
-    {
-      "town": "Douglas",
-      "nation": null,
-      "bank": 545.6,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -1209,7 +1202,7 @@
     {
       "town": "Elysium",
       "nation": "Eastern_Syndicate",
-      "bank": 9887.7,
+      "bank": 9889.95,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -1480,6 +1473,13 @@
       "days_rounded": null
     },
     {
+      "town": "Geiranger",
+      "nation": "British_Empire",
+      "bank": 6787,
+      "upkeep": 0,
+      "days_rounded": null
+    },
+    {
       "town": "Gftandgzund",
       "nation": null,
       "bank": 685.45,
@@ -1532,6 +1532,13 @@
       "town": "Grande_Palestine",
       "nation": "Asian_Empire",
       "bank": 1264.17,
+      "upkeep": 0,
+      "days_rounded": null
+    },
+    {
+      "town": "Great_Australian_Empire",
+      "nation": null,
+      "bank": 0,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -2196,7 +2203,7 @@
     {
       "town": "Lhasa",
       "nation": "Eastern_Syndicate",
-      "bank": 17359.04,
+      "bank": 17485.04,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -2686,7 +2693,7 @@
     {
       "town": "New_Samarinda",
       "nation": "Landinian_Federation",
-      "bank": 12006.66,
+      "bank": 2006.66,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -2861,7 +2868,7 @@
     {
       "town": "North_Spero",
       "nation": "Republic_Of_Sakha",
-      "bank": 3324.89,
+      "bank": 14424.89,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -3568,7 +3575,7 @@
     {
       "town": "Puerto_Lando",
       "nation": "Landinian_Federation",
-      "bank": 124351.45,
+      "bank": 124318.45,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -4078,7 +4085,7 @@
     },
     {
       "town": "Soli",
-      "nation": "Imperia_Telvaria",
+      "nation": null,
       "bank": 772,
       "upkeep": 0,
       "days_rounded": null
@@ -4569,7 +4576,7 @@
     {
       "town": "Turtle_Defence",
       "nation": "Testudo_Dominion",
-      "bank": 1949,
+      "bank": 36,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -4877,7 +4884,7 @@
     {
       "town": "Wuhan",
       "nation": "Eastern_Syndicate",
-      "bank": 1740.78,
+      "bank": 11415.77,
       "upkeep": 0,
       "days_rounded": null
     },
