@@ -1,5 +1,5 @@
 {
-  "scraped_at": "2026-10-20T22:30:29.822Z",
+  "scraped_at": "2026-10-21T22:35:20.089Z",
   "source": "https://map.ccnetmc.com/nationsmap",
   "towns": [
     {
@@ -194,7 +194,7 @@
     {
       "town": "Antalya",
       "nation": "The_Dominion_Of_Rovaryn",
-      "bank": 144878,
+      "bank": 146459,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -458,6 +458,13 @@
       "days_rounded": null
     },
     {
+      "town": "Bobland",
+      "nation": "Eastern_Syndicate",
+      "bank": 58766.72,
+      "upkeep": 0,
+      "days_rounded": null
+    },
+    {
       "town": "Boloni",
       "nation": "Imperia_Telvaria",
       "bank": 598,
@@ -516,7 +523,7 @@
     {
       "town": "Brotherhood_Of_Steel",
       "nation": "Imperial_North",
-      "bank": 1030.1,
+      "bank": 1874.1,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -1475,7 +1482,7 @@
     {
       "town": "Geiranger",
       "nation": "British_Empire",
-      "bank": 6787,
+      "bank": 6736,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -1720,7 +1727,7 @@
     {
       "town": "Hunduras",
       "nation": "West_Coast_Republic",
-      "bank": 277,
+      "bank": 255,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -1735,13 +1742,6 @@
       "town": "Hyperion",
       "nation": "Asian_Empire",
       "bank": 925.11,
-      "upkeep": 0,
-      "days_rounded": null
-    },
-    {
-      "town": "HzXBoblandia",
-      "nation": "Eastern_Syndicate",
-      "bank": 49959.72,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -2203,7 +2203,7 @@
     {
       "town": "Lhasa",
       "nation": "Eastern_Syndicate",
-      "bank": 17485.04,
+      "bank": 17611.04,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -2462,7 +2462,7 @@
     {
       "town": "Murcia",
       "nation": "Spanish_Empire",
-      "bank": 9305.89,
+      "bank": 11305.89,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -3211,7 +3211,7 @@
     {
       "town": "Pescara",
       "nation": "Alchak_Federation",
-      "bank": 233.09,
+      "bank": 433.09,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -4436,7 +4436,7 @@
     {
       "town": "The_State_Of_Oldale",
       "nation": "Imperial_Federation",
-      "bank": 32298.44,
+      "bank": 34876.44,
       "upkeep": 0,
       "days_rounded": null
     },
