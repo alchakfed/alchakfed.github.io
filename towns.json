@@ -1,5 +1,5 @@
 {
-  "scraped_at": "2026-10-21T22:35:20.089Z",
+  "scraped_at": "2026-10-22T22:37:10.369Z",
   "source": "https://map.ccnetmc.com/nationsmap",
   "towns": [
     {
@@ -26,7 +26,7 @@
     {
       "town": "Aetherion",
       "nation": "Quintessence_Syndicate",
-      "bank": 669619.86,
+      "bank": 673619.86,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -1503,7 +1503,7 @@
     {
       "town": "Glacies",
       "nation": "Elite_Penguin_Force",
-      "bank": 21834.6,
+      "bank": 23049.6,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -1629,7 +1629,7 @@
     {
       "town": "Halifax",
       "nation": "Imperial_North",
-      "bank": 91788.71,
+      "bank": 94488.71,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -1956,6 +1956,13 @@
       "days_rounded": null
     },
     {
+      "town": "Kars_Lumini",
+      "nation": "Imperia_Telvaria",
+      "bank": 3250.58,
+      "upkeep": 0,
+      "days_rounded": null
+    },
+    {
       "town": "Karsian_Nudiflorum",
       "nation": "Persian_Empire",
       "bank": 374.11,
@@ -2203,7 +2210,7 @@
     {
       "town": "Lhasa",
       "nation": "Eastern_Syndicate",
-      "bank": 17611.04,
+      "bank": 17710.04,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -2224,7 +2231,7 @@
     {
       "town": "Likasi",
       "nation": "Imperia_Telvaria",
-      "bank": 284,
+      "bank": 3027,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -2260,13 +2267,6 @@
       "town": "Livland_Dio",
       "nation": "Imperium_Romanum",
       "bank": 9891.25,
-      "upkeep": 0,
-      "days_rounded": null
-    },
-    {
-      "town": "Llamaland",
-      "nation": "Vinovia",
-      "bank": 633,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -2896,7 +2896,7 @@
     {
       "town": "Northwest_Territories",
       "nation": "Canada",
-      "bank": 6636.35,
+      "bank": 5836.35,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -3051,6 +3051,13 @@
       "town": "Olympus_Dio",
       "nation": "Gran_Colombia",
       "bank": 15070.66,
+      "upkeep": 0,
+      "days_rounded": null
+    },
+    {
+      "town": "Ontario",
+      "nation": null,
+      "bank": 6,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -4322,13 +4329,6 @@
       "days_rounded": null
     },
     {
-      "town": "Tarsonis_Dio",
-      "nation": "Imperia_Telvaria",
-      "bank": 4000.58,
-      "upkeep": 0,
-      "days_rounded": null
-    },
-    {
       "town": "Tasmania",
       "nation": null,
       "bank": 5748.73,
@@ -4569,14 +4569,14 @@
     {
       "town": "Turtle_Bastion",
       "nation": "Testudo_Dominion",
-      "bank": 2945,
+      "bank": 2432,
       "upkeep": 0,
       "days_rounded": null
     },
     {
       "town": "Turtle_Defence",
       "nation": "Testudo_Dominion",
-      "bank": 36,
+      "bank": 2036,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -4751,7 +4751,7 @@
     {
       "town": "Victoria",
       "nation": "Imperia_Victoria",
-      "bank": 2797310.58,
+      "bank": 2804010.58,
       "upkeep": 0,
       "days_rounded": null
     },
