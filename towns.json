@@ -1,5 +1,5 @@
 {
-  "scraped_at": "2026-10-22T22:37:10.369Z",
+  "scraped_at": "2026-10-23T22:29:59.073Z",
   "source": "https://map.ccnetmc.com/nationsmap",
   "towns": [
     {
@@ -138,7 +138,7 @@
     {
       "town": "Allakaket",
       "nation": "West_Coast_Republic",
-      "bank": 18847.17,
+      "bank": 18189.17,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -649,7 +649,7 @@
     {
       "town": "Cape_Town",
       "nation": null,
-      "bank": 275,
+      "bank": 215,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -747,7 +747,7 @@
     {
       "town": "Chakistania",
       "nation": "Alchak_Federation",
-      "bank": 319,
+      "bank": 305,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -1060,6 +1060,13 @@
       "days_rounded": null
     },
     {
+      "town": "DoomHold",
+      "nation": "Void_Empire",
+      "bank": 3879,
+      "upkeep": 0,
+      "days_rounded": null
+    },
+    {
       "town": "Doomstadt",
       "nation": "Eastern_Syndicate",
       "bank": 2640.75,
@@ -1104,7 +1111,7 @@
     {
       "town": "Dripstone_Heaven",
       "nation": "Thracian_Dominion",
-      "bank": 9117.29,
+      "bank": 34117.29,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -1195,7 +1202,7 @@
     {
       "town": "Elephantia",
       "nation": "Gran_Colombia",
-      "bank": 5539.28,
+      "bank": 5544.68,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -2210,7 +2217,7 @@
     {
       "town": "Lhasa",
       "nation": "Eastern_Syndicate",
-      "bank": 17710.04,
+      "bank": 17854.04,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -2875,7 +2882,7 @@
     {
       "town": "North_Star",
       "nation": "Republic_Of_Sakha",
-      "bank": 91050.03,
+      "bank": 91060.03,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -2896,7 +2903,7 @@
     {
       "town": "Northwest_Territories",
       "nation": "Canada",
-      "bank": 5836.35,
+      "bank": 6052.35,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -3274,7 +3281,7 @@
     {
       "town": "Polonia_Harbour",
       "nation": "Thracian_Dominion",
-      "bank": 10018.44,
+      "bank": 30018.44,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -3491,7 +3498,7 @@
     {
       "town": "Port_Tora",
       "nation": "Asian_Empire",
-      "bank": 6368.69,
+      "bank": 6346.69,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -4091,13 +4098,6 @@
       "days_rounded": null
     },
     {
-      "town": "Soli",
-      "nation": null,
-      "bank": 772,
-      "upkeep": 0,
-      "days_rounded": null
-    },
-    {
       "town": "South_Nadym",
       "nation": "Eastern_Syndicate",
       "bank": 10578.44,
@@ -4436,7 +4436,7 @@
     {
       "town": "The_State_Of_Oldale",
       "nation": "Imperial_Federation",
-      "bank": 34876.44,
+      "bank": 37220.44,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -4569,7 +4569,7 @@
     {
       "town": "Turtle_Bastion",
       "nation": "Testudo_Dominion",
-      "bank": 2432,
+      "bank": 4432,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -4653,7 +4653,7 @@
     {
       "town": "Varas",
       "nation": "Landinian_Federation",
-      "bank": 28964,
+      "bank": 28464,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -4751,7 +4751,7 @@
     {
       "town": "Victoria",
       "nation": "Imperia_Victoria",
-      "bank": 2804010.58,
+      "bank": 2805969.58,
       "upkeep": 0,
       "days_rounded": null
     },
