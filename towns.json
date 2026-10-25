@@ -1,5 +1,5 @@
 {
-  "scraped_at": "2026-10-24T21:44:55.700Z",
+  "scraped_at": "2026-10-25T21:59:24.418Z",
   "source": "https://map.ccnetmc.com/nationsmap",
   "towns": [
     {
@@ -355,7 +355,7 @@
     {
       "town": "Aventura",
       "nation": "Void_Empire",
-      "bank": 928,
+      "bank": 781,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -537,7 +537,7 @@
     {
       "town": "Brotherhood_Of_Steel",
       "nation": "Imperial_North",
-      "bank": 1778.1,
+      "bank": 2258.1,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -614,7 +614,7 @@
     {
       "town": "Camellia",
       "nation": "Imperial_North",
-      "bank": 54098.6,
+      "bank": 58531.6,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -1216,7 +1216,7 @@
     {
       "town": "Elephantia",
       "nation": "Gran_Colombia",
-      "bank": 5544.68,
+      "bank": 5641.88,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -1230,7 +1230,7 @@
     {
       "town": "Elysium",
       "nation": "Eastern_Syndicate",
-      "bank": 9889.95,
+      "bank": 9894.45,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -1356,7 +1356,7 @@
     {
       "town": "Folk_Tower",
       "nation": "West_Coast_Republic",
-      "bank": 200,
+      "bank": 5153,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -1364,6 +1364,13 @@
       "town": "Fort_Adwa",
       "nation": "Kingdom_Of_Ethiopia",
       "bank": 1563.09,
+      "upkeep": 0,
+      "days_rounded": null
+    },
+    {
+      "town": "Fort_Alpha",
+      "nation": null,
+      "bank": 4780,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -1769,7 +1776,7 @@
     {
       "town": "IgnisGlacies",
       "nation": "Elite_Penguin_Force",
-      "bank": 23555.1,
+      "bank": 25832.1,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -3211,14 +3218,7 @@
     {
       "town": "Pemba",
       "nation": "Imperia_Telvaria",
-      "bank": 20894.48,
-      "upkeep": 0,
-      "days_rounded": null
-    },
-    {
-      "town": "Pemba_Requiem",
-      "nation": "Imperia_Telvaria",
-      "bank": 4055.5,
+      "bank": 5894.48,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -3440,6 +3440,13 @@
       "days_rounded": null
     },
     {
+      "town": "Port_Peanut_Butter",
+      "nation": "Imperia_Telvaria",
+      "bank": 3927.5,
+      "upkeep": 0,
+      "days_rounded": null
+    },
+    {
       "town": "Port_Potoo",
       "nation": "Potarian_Seaguards",
       "bank": 135842,
@@ -3512,7 +3519,7 @@
     {
       "town": "Port_Tora",
       "nation": "Asian_Empire",
-      "bank": 6258.69,
+      "bank": 129258.69,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -4303,7 +4310,7 @@
     {
       "town": "Syndicate_Tower",
       "nation": "Eastern_Syndicate",
-      "bank": 693.48,
+      "bank": 3693.49,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -4653,7 +4660,7 @@
     {
       "town": "Vanghun",
       "nation": "Eastern_Syndicate",
-      "bank": 206.75,
+      "bank": 5206.75,
       "upkeep": 0,
       "days_rounded": null
     },
@@ -4723,7 +4730,7 @@
     {
       "town": "Ventora",
       "nation": "Imperium_Romanum",
-      "bank": 216587.22,
+      "bank": 71587.22,
       "upkeep": 0,
       "days_rounded": null
     },
